@@ -57,3 +57,4 @@ typings/
 
 # distribution
 dist/
+.docz/
