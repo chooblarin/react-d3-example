@@ -30,9 +30,19 @@ const timeSeriesInputData = [
 class App extends React.Component<{}, {}> {
   render() {
     const MeasuredBarChart = withMeasureAndRender(BarChart);
+    const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
+    const MeasuredDonutChart = withMeasureAndRender(DonutChart);
     return (
       <div>
         <h1>Hello App</h1>
+        <div className="container-time-series-chart">
+          <MeasuredTimeSeriesChart
+            inputData={timeSeriesInputData}
+            getX={item => dayjs(item.time).toDate()}
+            getY={item => item.km}
+            formatX={date => dayjs(date).format("MMM DD")}
+          />
+        </div>
         <div className="container-bar-chart">
           <MeasuredBarChart
             inputData={barInputData}
@@ -40,28 +50,28 @@ class App extends React.Component<{}, {}> {
             getY={item => item.frequency}
           />
         </div>
-        <TimeSeriesChart
-          inputData={timeSeriesInputData}
-          getX={item => dayjs(item.time).toDate()}
-          getY={item => item.km}
-          formatX={date => dayjs(date).format("MMM DD")}
-        />
-        <BarChart
-          inputData={barInputData}
-          width={960}
-          height={300}
-          getX={item => item.letter}
-          getY={item => item.frequency}
-        />
-        <DonutChart
-          inputData={donutInputData}
-          getX={item => item.gender}
-          getY={item => item.ratio}
-        />
+        <div className="container-donut-chart">
+          <MeasuredDonutChart
+            inputData={donutInputData}
+            getX={item => item.gender}
+            getY={item => item.ratio}
+          />
+        </div>
+
         <style jsx>{`
           .container-bar-chart {
             width: 100%;
             height: 400px;
+            position: relative;
+          }
+          .container-time-series-chart {
+            width: 80%;
+            height: 300px;
+            position: relative;
+          }
+          .container-donut-chart {
+            width: 50vw;
+            height: 50vw;
             position: relative;
           }
         `}</style>

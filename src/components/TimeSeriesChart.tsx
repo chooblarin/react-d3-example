@@ -5,12 +5,7 @@ import { extent } from "d3-array";
 import { line } from "d3-shape";
 import { axisBottom, axisLeft } from "d3-axis";
 
-const svgWidth = 650;
-const svgHeight = 400;
-
-const margin = { top: 20, right: 20, bottom: 40, left: 45 };
-const width = svgWidth - margin.left - margin.right;
-const height = svgHeight - margin.top - margin.bottom;
+import { InjectedProps } from "./withMeasureAndRender";
 
 type TimeSeriesChartProps = {
   inputData: any[];
@@ -21,16 +16,22 @@ type TimeSeriesChartProps = {
 
 function TimeSeriesChart({
   inputData,
+  width,
+  height,
   getX,
   getY,
   formatX
-}: TimeSeriesChartProps) {
+}: TimeSeriesChartProps & InjectedProps) {
+  const margin = { top: 20, right: 20, bottom: 40, left: 45 };
+  const w = width - margin.left - margin.right;
+  const h = height - margin.top - margin.bottom;
+
   const x = scaleLinear()
-    .range([0, width])
+    .range([0, w])
     .domain(extent(inputData, getX) as Date[]);
 
   const y = scaleLinear()
-    .range([height, 0])
+    .range([h, 0])
     .domain(extent(inputData, getY) as number[])
     .nice();
 
@@ -45,12 +46,12 @@ function TimeSeriesChart({
   const axisY = axisLeft(y).ticks(5);
 
   return (
-    <svg width={svgWidth} height={svgHeight}>
+    <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         <path className="line" d={valueLine(inputData) || ``} />
         <g
           className="axis axis--x"
-          transform={`translate(0, ${height})`}
+          transform={`translate(0, ${h})`}
           ref={node => select(node).call(axisX as any)}
         />
         <g

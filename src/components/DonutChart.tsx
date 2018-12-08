@@ -2,19 +2,9 @@ import React from "react";
 import { scaleOrdinal } from "d3-scale";
 import { arc as d3Arc, pie as d3Pie } from "d3-shape";
 
+import { InjectedProps } from "./withMeasureAndRender";
+
 const fillColor = scaleOrdinal().range(["purple", "steelblue"]);
-
-const width = 960;
-const height = 500;
-const radius = Math.min(width, height) / 2;
-
-const pie = d3Pie()
-  .sort(null)
-  .value((d: any) => d.ratio);
-
-const arc = d3Arc()
-  .outerRadius(radius)
-  .innerRadius(radius - 80);
 
 type DonutChartProps = {
   inputData: any[];
@@ -22,7 +12,22 @@ type DonutChartProps = {
   getY: (item: any) => number;
 };
 
-function DonutChart({ inputData, getY }: DonutChartProps) {
+function DonutChart({
+  inputData,
+  width,
+  height,
+  getY
+}: DonutChartProps & InjectedProps) {
+  const radius = Math.min(width, height) / 2;
+
+  const pie = d3Pie()
+    .sort(null)
+    .value((d: any) => d.ratio);
+
+  const arc = d3Arc()
+    .outerRadius(radius)
+    .innerRadius(radius - 80);
+
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${width / 2}, ${height / 2})`}>
