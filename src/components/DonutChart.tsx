@@ -18,10 +18,11 @@ const arc = d3Arc()
 
 type DonutChartProps = {
   inputData: any[];
-  getValue: (item: any) => number;
+  getX: (item: any) => number;
+  getY: (item: any) => number;
 };
 
-function DonutChart({ inputData, getValue }: DonutChartProps) {
+function DonutChart({ inputData, getY }: DonutChartProps) {
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${width / 2}, ${height / 2})`}>
@@ -36,7 +37,7 @@ function DonutChart({ inputData, getValue }: DonutChartProps) {
                 transform={`translate(${arc.centroid(item)})`}
                 style={{ fill: `white`, textAnchor: `middle` }}
               >
-                {`${getValue(item.data)}`}
+                {`${getY(item.data)}`}
               </text>
             </g>
           );
