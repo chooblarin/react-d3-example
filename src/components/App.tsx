@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import BarChart from "./BarChart";
 import DonutChart from "./DonutChart";
 import TimeSeriesChart from "./TimeSeriesChart";
+import withMeasureAndRender from "./withMeasureAndRender";
 
 const donutInputData = [
   { gender: "male", ratio: 0.2 },
@@ -28,9 +29,17 @@ const timeSeriesInputData = [
 
 class App extends React.Component<{}, {}> {
   render() {
+    const MeasuredBarChart = withMeasureAndRender(BarChart);
     return (
       <div>
         <h1>Hello App</h1>
+        <div className="container-bar-chart">
+          <MeasuredBarChart
+            inputData={barInputData}
+            getX={item => item.letter}
+            getY={item => item.frequency}
+          />
+        </div>
         <TimeSeriesChart
           inputData={timeSeriesInputData}
           getX={item => dayjs(item.time).toDate()}
@@ -39,6 +48,8 @@ class App extends React.Component<{}, {}> {
         />
         <BarChart
           inputData={barInputData}
+          width={960}
+          height={300}
           getX={item => item.letter}
           getY={item => item.frequency}
         />
@@ -47,6 +58,13 @@ class App extends React.Component<{}, {}> {
           getX={item => item.gender}
           getY={item => item.ratio}
         />
+        <style jsx>{`
+          .container-bar-chart {
+            width: 100%;
+            height: 400px;
+            position: relative;
+          }
+        `}</style>
         <style jsx global>{`
           html,
           body {
