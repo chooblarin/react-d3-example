@@ -1,4 +1,4 @@
-# React + SVG example
+# React + D3.js example
 
 ## References
 
