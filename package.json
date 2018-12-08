@@ -1,0 +1,22 @@
+{
+  "name": "react-svg-example",
+  "version": "0.0.1",
+  "description": "React + SVG example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chooblarin/react-svg-example.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "chooblarin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chooblarin/react-svg-example/issues"
+  },
+  "homepage": "https://github.com/chooblarin/react-svg-example#readme"
+}
