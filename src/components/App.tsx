@@ -27,11 +27,12 @@ const timeSeriesInputData = [
   { time: `2014-11-20`, km: 1398 }
 ];
 
+const MeasuredBarChart = withMeasureAndRender(BarChart);
+const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
+const MeasuredDonutChart = withMeasureAndRender(DonutChart);
+
 class App extends React.Component<{}, {}> {
   render() {
-    const MeasuredBarChart = withMeasureAndRender(BarChart);
-    const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
-    const MeasuredDonutChart = withMeasureAndRender(DonutChart);
     return (
       <div>
         <h1>Hello App</h1>
