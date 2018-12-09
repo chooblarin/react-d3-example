@@ -63,17 +63,14 @@ class App extends React.Component<{}, {}> {
           .container-bar-chart {
             width: 100%;
             height: 400px;
-            position: relative;
           }
           .container-time-series-chart {
             width: 80%;
             height: 300px;
-            position: relative;
           }
           .container-donut-chart {
             width: 50vw;
             height: 50vw;
-            position: relative;
           }
         `}</style>
         <style jsx global>{`
