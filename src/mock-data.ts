@@ -1,3 +1,7 @@
+import dayjs from "dayjs";
+
+import { DailyRank } from "./models/ranking-data";
+
 export const donutInputData = [
   { gender: "male", ratio: 0.2 },
   { gender: "female", ratio: 0.8 }
@@ -18,3 +22,13 @@ export const timeSeriesInputData = [
   { time: `2014-11-19`, km: 1285 },
   { time: `2014-11-20`, km: 1398 }
 ];
+
+const lastDay = dayjs(`2018-12-10`);
+
+export const dailyRankingData: DailyRank[] = Array(7 * 10) // 10 weeks
+  .fill(null)
+  .map((_, i) => {
+    const day = lastDay.add(-i, "day").toDate();
+    const rank = Math.floor(10 * Math.random() + 20);
+    return { day, rank };
+  });

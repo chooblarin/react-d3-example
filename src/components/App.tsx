@@ -4,22 +4,30 @@ import dayjs from "dayjs";
 import BarChart from "./BarChart";
 import DonutChart from "./DonutChart";
 import TimeSeriesChart from "./TimeSeriesChart";
+import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
 import withMeasureAndRender from "./withMeasureAndRender";
 import {
   timeSeriesInputData,
   barInputData,
-  donutInputData
+  donutInputData,
+  dailyRankingData
 } from "../mock-data";
 
 const MeasuredBarChart = withMeasureAndRender(BarChart);
 const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
 const MeasuredDonutChart = withMeasureAndRender(DonutChart);
+const MeasuredResponsiveDailyRankChart = withMeasureAndRender(
+  ResponsiveDailyRankChart
+);
 
 class App extends React.Component<{}, {}> {
   render() {
     return (
       <div>
         <h1>Hello App</h1>
+        <div style={{ width: "100%", height: "240px" }}>
+          <MeasuredResponsiveDailyRankChart inputData={dailyRankingData} />
+        </div>
         <div className="container-time-series-chart">
           <MeasuredTimeSeriesChart
             inputData={timeSeriesInputData}
