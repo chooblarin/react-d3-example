@@ -1,4 +1,6 @@
+import dayjs from "dayjs";
+
 export type DailyRank = {
-  day: Date;
+  day: dayjs.Dayjs;
   rank: number;
 };

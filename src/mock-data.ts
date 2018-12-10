@@ -28,7 +28,7 @@ const lastDay = dayjs(`2018-12-10`);
 export const dailyRankingData: DailyRank[] = Array(7 * 10) // 10 weeks
   .fill(null)
   .map((_, i) => {
-    const day = lastDay.add(-i, "day").toDate();
+    const day = lastDay.add(-i, "day");
     const rank = Math.floor(10 * Math.random() + 20);
     return { day, rank };
   });

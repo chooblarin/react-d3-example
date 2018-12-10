@@ -12,7 +12,7 @@ function ResponsiveDailyRankChart(
   props: ResponsiveDailyRankChartProps & InjectedProps
 ) {
   const { width, inputData } = props;
-  const sorted = inputData.sort((a, b) => b.day.getTime() - a.day.getTime());
+  const sorted = inputData.sort((a, b) => (b.day.isBefore(a.day) ? -1 : 1));
 
   let adjustedData: DailyRank[] = [];
   if (width <= 550) {
