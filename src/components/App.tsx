@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import BarChart from "./BarChart";
 import DonutChart from "./DonutChart";
 import TimeSeriesChart from "./TimeSeriesChart";
+import DailyRankChart from "./DailyRankChart";
 import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
 import withMeasureAndRender from "./withMeasureAndRender";
 import {
@@ -16,6 +17,7 @@ import {
 const MeasuredBarChart = withMeasureAndRender(BarChart);
 const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
 const MeasuredDonutChart = withMeasureAndRender(DonutChart);
+const MeasuredDailyRankChart = withMeasureAndRender(DailyRankChart);
 const MeasuredResponsiveDailyRankChart = withMeasureAndRender(
   ResponsiveDailyRankChart
 );
@@ -23,12 +25,15 @@ const MeasuredResponsiveDailyRankChart = withMeasureAndRender(
 class App extends React.Component<{}, {}> {
   render() {
     return (
-      <div>
-        <h1>Hello App</h1>
+      <main>
+        <h1>React + D3 Examples</h1>
         <div style={{ width: "100%", height: "240px" }}>
           <MeasuredResponsiveDailyRankChart inputData={dailyRankingData} />
         </div>
-        <div className="container-time-series-chart">
+        <div style={{ width: "100%", height: "240px" }}>
+          <MeasuredDailyRankChart inputData={dailyRankingData} />
+        </div>
+        <div style={{ width: "100%", height: "400px" }}>
           <MeasuredTimeSeriesChart
             inputData={timeSeriesInputData}
             getX={item => dayjs(item.time).toDate()}
@@ -36,35 +41,20 @@ class App extends React.Component<{}, {}> {
             formatX={date => dayjs(date).format("MMM DD")}
           />
         </div>
-        <div className="container-bar-chart">
+        <div style={{ width: "80%", height: "300px" }}>
           <MeasuredBarChart
             inputData={barInputData}
             getX={item => item.letter}
             getY={item => item.frequency}
           />
         </div>
-        <div className="container-donut-chart">
+        <div style={{ width: "50vw", height: "50vw" }}>
           <MeasuredDonutChart
             inputData={donutInputData}
             getX={item => item.gender}
             getY={item => item.ratio}
           />
         </div>
-
-        <style jsx>{`
-          .container-bar-chart {
-            width: 100%;
-            height: 400px;
-          }
-          .container-time-series-chart {
-            width: 80%;
-            height: 300px;
-          }
-          .container-donut-chart {
-            width: 50vw;
-            height: 50vw;
-          }
-        `}</style>
         <style jsx global>{`
           html,
           body {
@@ -74,8 +64,15 @@ class App extends React.Component<{}, {}> {
           body {
             font-family: system-ui;
           }
+          main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+          }
         `}</style>
-      </div>
+      </main>
     );
   }
 }

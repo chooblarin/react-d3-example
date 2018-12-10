@@ -15,7 +15,7 @@ function ResponsiveDailyRankChart(
   const sorted = inputData.sort((a, b) => b.day.getTime() - a.day.getTime());
 
   let adjustedData: DailyRank[] = [];
-  if (width <= 400) {
+  if (width <= 550) {
     adjustedData = sorted.slice(0, 4 * 7); // 4 weeks
   } else if (width <= 750) {
     adjustedData = sorted.slice(0, 8 * 7); // 8 weeks
