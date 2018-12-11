@@ -10,10 +10,6 @@ import { InjectedProps } from "./withMeasureAndRender";
 import { DailyRank } from "../models/ranking-data";
 import dayjs from "dayjs";
 
-type DailyRankChartProps = {
-  inputData: DailyRank[];
-};
-
 const drawBackgroundRect = (x1: number, x2: number, height: number): string => {
   return `M${x1},0 L${x2},0 L${x2},${height} ${x1},${height}Z`;
 };
@@ -59,19 +55,39 @@ const generateDayTickValues = (
   return results;
 };
 
-function DailyRankChart({
-  inputData,
-  width,
-  height
-}: DailyRankChartProps & InjectedProps) {
-  const getX = (item: DailyRank) => item.day;
-  const getY = (item: DailyRank) => item.rank;
+type DailyRankChartProps = {
+  inputData: DailyRank[];
+};
 
-  const margin = { top: 20, right: 20, bottom: 40, left: 45 };
-  const w = width - margin.left - margin.right;
-  const h = height - margin.top - margin.bottom;
+type DailyRankChartState = {
+  hoveredIndex: number | null;
+};
 
-  if (0 < inputData.length) {
+class DailyRankChart extends React.Component<
+  DailyRankChartProps & InjectedProps,
+  DailyRankChartState
+> {
+  constructor(props: DailyRankChartProps & InjectedProps) {
+    super(props);
+    this.state = {
+      hoveredIndex: null
+    };
+  }
+
+  render() {
+    const { inputData, width, height } = this.props;
+
+    if (0 === inputData.length) {
+      return <svg width={width} height={height} />;
+    }
+
+    const getX = (item: DailyRank) => item.day;
+    const getY = (item: DailyRank) => item.rank;
+
+    const margin = { top: 20, right: 20, bottom: 40, left: 45 };
+    const w = width - margin.left - margin.right;
+    const h = height - margin.top - margin.bottom;
+
     const data = inputData.sort((a, b) => (a.day.isBefore(b.day) ? -1 : 1));
 
     const start = data[0].day;
@@ -125,6 +141,20 @@ function DailyRankChart({
     const voronoi = delaunay.voronoi([0, 0, w, h]);
     const cellPolygons = voronoi.cellPolygons();
 
+    let tooltip;
+    const { hoveredIndex } = this.state;
+    if (hoveredIndex !== null) {
+      const { day, rank } = data[hoveredIndex];
+      tooltip = (
+        <g className="tooltop" transform={`translate(${x(day)}, ${y(rank)})`}>
+          <circle r={3.5} />
+          <text y={-10} fontSize={12}>{`rank: ${rank}`}</text>
+        </g>
+      );
+    } else {
+      tooltip = null;
+    }
+
     return (
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -168,12 +198,20 @@ function DailyRankChart({
             }}
           />
           <path className="line" d={valueLine(data as any) || ``} />
+          {tooltip}
           <g className="voronoi">
             {Array.from(cellPolygons).map((polygon, i) => {
               const pathData = `M${polygon
                 .map(([x, y]) => `${x},${y}`)
                 .join("L")}Z`;
-              return <path d={pathData} key={`${i}`} />;
+              return (
+                <path
+                  d={pathData}
+                  key={`${i}`}
+                  onMouseOver={() => this.onCellMouseOver(i)}
+                  onMouseOut={() => this.onCellMouseOut()}
+                />
+              );
             })}
           </g>
         </g>
@@ -197,14 +235,24 @@ function DailyRankChart({
             }
             .voronoi {
               fill: none;
-              stroke: red;
+              stroke: none;
+            }
+            .voronoi path {
+              pointer-events: all;
             }
           `}
         </style>
       </svg>
     );
   }
-  return <svg width={width} height={height} />;
+
+  private onCellMouseOver(hoveredIndex: number) {
+    this.setState({ hoveredIndex });
+  }
+
+  private onCellMouseOut() {
+    this.setState({ hoveredIndex: null });
+  }
 }
 
 export default DailyRankChart;
