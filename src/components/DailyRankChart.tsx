@@ -97,11 +97,22 @@ function DailyRankChart({
     const dayTickValues = generateDayTickValues(start, end).map(day =>
       day.toDate()
     );
+
+    // setup axis
+    const numOfYAxis = 5;
+
     const axisX = axisBottom(x)
       .tickValues(dayTickValues)
-      .tickFormat(date => dayjs(date as Date).format("MMM DD"));
+      .tickFormat(date => dayjs(date as Date).format("MMM DD"))
+      .tickSizeInner(0)
+      .tickPadding(8);
 
-    const axisY = axisLeft(y).ticks(5);
+    const axisY = axisLeft(y).ticks(numOfYAxis);
+
+    const horizontalLines = axisLeft(y)
+      .ticks(numOfYAxis)
+      .tickSize(-w)
+      .tickFormat(() => "");
 
     // create month-background rect
     const bgRects = monthBackgroundRects(start, end, x, h);
@@ -112,23 +123,51 @@ function DailyRankChart({
           {bgRects.map((d, i) => (
             <path key={`${i}`} className={i % 2 === 0 ? "even" : "odd"} d={d} />
           ))}
-          <path className="line" d={valueLine(data as any) || ``} />
           <g
-            className="axis axis--x"
+            className="grid h-grid"
+            ref={node => {
+              const hGrid = select(node);
+              hGrid
+                .call(horizontalLines as any)
+                .select(".domain")
+                .remove();
+              hGrid.selectAll(".tick line").attr("stroke", "#e1e1e1");
+              return hGrid;
+            }}
+          />
+          <g
+            className="axis axis-x"
             transform={`translate(0, ${h})`}
-            ref={node => select(node).call(axisX as any)}
+            ref={node =>
+              select(node)
+                .call(axisX as any)
+                .select(".domain")
+                .remove()
+            }
           />
           <g
-            className="axis axis--y"
-            ref={node => select(node).call(axisY as any)}
+            className="axis axis-y"
+            ref={node => {
+              const yAxis = select(node);
+              yAxis
+                .call(axisY as any)
+                .select(".domain")
+                .remove();
+              yAxis.selectAll(".tick line").remove();
+              return yAxis;
+            }}
           />
+          <path className="line" d={valueLine(data as any) || ``} />
         </g>
         <style jsx>
           {`
             .line {
               fill: none;
-              stroke: #d9592c;
+              stroke: #1c9099;
               stroke-width: 2;
+            }
+            .axis {
+              color: #676767;
             }
             .even {
               fill: #fcfdff;
