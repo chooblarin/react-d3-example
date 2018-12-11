@@ -1,5 +1,5 @@
 import React from "react";
-import { scaleTime, scaleLinear } from "d3-scale";
+import { scaleTime, scaleLinear, ScaleTime } from "d3-scale";
 import { min, max } from "d3-array";
 import { line, curveMonotoneX } from "d3-shape";
 import { select } from "d3-selection";
@@ -11,6 +11,51 @@ import dayjs from "dayjs";
 
 type DailyRankChartProps = {
   inputData: DailyRank[];
+};
+
+const drawBackgroundRect = (x1: number, x2: number, height: number): string => {
+  return `M${x1},0 L${x2},0 L${x2},${height} ${x1},${height}Z`;
+};
+
+const monthBackgroundRects = (
+  start: dayjs.Dayjs,
+  end: dayjs.Dayjs,
+  scaleX: ScaleTime<number, number>,
+  height: number
+): string[] => {
+  let bgRects = [];
+  let cur = start;
+  while (cur.isBefore(end)) {
+    const endOfMonth = cur.endOf("month");
+    const firstOfNextMonth = endOfMonth.add(1, "day");
+    let x1: number;
+    let x2: number;
+    if (endOfMonth.isAfter(end)) {
+      x1 = scaleX(cur.toDate());
+      x2 = scaleX(end.toDate());
+    } else {
+      x1 = scaleX(cur.toDate());
+      x2 = scaleX(firstOfNextMonth.toDate());
+    }
+    const r = drawBackgroundRect(x1, x2, height);
+    bgRects.push(r);
+
+    cur = firstOfNextMonth;
+  }
+  return bgRects;
+};
+
+const generateDayTickValues = (
+  start: dayjs.Dayjs,
+  end: dayjs.Dayjs
+): dayjs.Dayjs[] => {
+  const results: dayjs.Dayjs[] = [];
+  let cur = end;
+  while (start.isBefore(cur)) {
+    results.push(dayjs(cur));
+    cur = cur.add(-7, "day");
+  }
+  return results;
 };
 
 function DailyRankChart({
@@ -49,29 +94,17 @@ function DailyRankChart({
       .y((d: any) => y(getY(d)))
       .curve(curveMonotoneX);
 
-    const axisX = axisBottom(x).ticks(inputData.length / 7);
+    const dayTickValues = generateDayTickValues(start, end).map(day =>
+      day.toDate()
+    );
+    const axisX = axisBottom(x)
+      .tickValues(dayTickValues)
+      .tickFormat(date => dayjs(date as Date).format("MMM DD"));
+
     const axisY = axisLeft(y).ticks(5);
 
     // create month-background rect
-
-    const drawBackgroundRect = (from: dayjs.Dayjs, to: dayjs.Dayjs) => {
-      const fd = from.toDate();
-      const td = to.toDate();
-      return `M${x(fd)},0 L${x(td)},0 L${x(td)},${h} ${x(fd)},${h}Z`;
-    };
-
-    let bgRects = [];
-    let curDay = start;
-    for (const d of data) {
-      const { day } = d;
-      if (curDay.month() !== day.month()) {
-        const r = drawBackgroundRect(curDay, day);
-        bgRects.push(r);
-        curDay = day;
-      }
-    }
-    const r = drawBackgroundRect(curDay, end);
-    bgRects.push(r);
+    const bgRects = monthBackgroundRects(start, end, x, h);
 
     return (
       <svg width={width} height={height}>
