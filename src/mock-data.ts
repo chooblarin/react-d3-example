@@ -32,3 +32,23 @@ export const dailyRankingData: DailyRank[] = Array(7 * 10) // 10 weeks
     const rank = Math.floor(10 * Math.random() + 20);
     return { day, rank };
   });
+
+export const multiTimeSeriesInputData: any[][] = (function() {
+  const numOfSeries = 3;
+  const start = dayjs(`2018-10-10`);
+  const end = dayjs(`2018-12-10`);
+
+  const results: any[][] = [];
+  for (let i = 0; i < numOfSeries; i += 1) {
+    const series: any[] = [];
+    let cur = start;
+    while (cur.isBefore(end)) {
+      const time = dayjs(cur);
+      const value = Math.floor(5 * (2 * Math.random() - 1) + 5 * i + 30);
+      series.push({ time, value });
+      cur = cur.add(1, "day");
+    }
+    results.push(series);
+  }
+  return results;
+})();

@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import BarChart from "./BarChart";
 import DonutChart from "./DonutChart";
 import TimeSeriesChart from "./TimeSeriesChart";
+import MultiTimeSeriesChart from "./MultiTimeSeriesChart";
 import DailyRankChart from "./DailyRankChart";
 import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
 import withMeasureAndRender from "./withMeasureAndRender";
@@ -11,11 +12,13 @@ import {
   timeSeriesInputData,
   barInputData,
   donutInputData,
-  dailyRankingData
+  dailyRankingData,
+  multiTimeSeriesInputData
 } from "../mock-data";
 
 const MeasuredBarChart = withMeasureAndRender(BarChart);
 const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
+const MeasuredMultiTimeSeriesChart = withMeasureAndRender(MultiTimeSeriesChart);
 const MeasuredDonutChart = withMeasureAndRender(DonutChart);
 const MeasuredDailyRankChart = withMeasureAndRender(DailyRankChart);
 const MeasuredResponsiveDailyRankChart = withMeasureAndRender(
@@ -33,12 +36,17 @@ class App extends React.Component<{}, {}> {
         <div style={{ width: "100%", height: "240px" }}>
           <MeasuredDailyRankChart inputData={dailyRankingData} />
         </div>
-        <div style={{ width: "100%", height: "400px" }}>
+        <div style={{ width: "100%", height: "240px" }}>
           <MeasuredTimeSeriesChart
             inputData={timeSeriesInputData}
             getX={item => dayjs(item.time).toDate()}
             getY={item => item.km}
             formatX={date => dayjs(date).format("MMM DD")}
+          />
+        </div>
+        <div style={{ width: "100%", height: "240px" }}>
+          <MeasuredMultiTimeSeriesChart
+            mutiInputData={multiTimeSeriesInputData}
           />
         </div>
         <div style={{ width: "80%", height: "300px" }}>

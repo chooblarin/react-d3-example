@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 import { scaleTime, scaleLinear, ScaleTime } from "d3-scale";
 import { min, max } from "d3-array";
 import { line, curveMonotoneX } from "d3-shape";
@@ -8,7 +9,6 @@ import { Delaunay } from "d3-delaunay";
 
 import { InjectedProps } from "./withMeasureAndRender";
 import { DailyRank } from "../models/ranking-data";
-import dayjs from "dayjs";
 
 const drawBackgroundRect = (x1: number, x2: number, height: number): string => {
   return `M${x1},0 L${x2},0 L${x2},${height} ${x1},${height}Z`;
@@ -111,12 +111,12 @@ class DailyRankChart extends React.Component<
       .y((d: any) => y(getY(d)))
       .curve(curveMonotoneX);
 
+    // setup axis
+    const numOfYAxis = 5;
+
     const dayTickValues = generateDayTickValues(start, end).map(day =>
       day.toDate()
     );
-
-    // setup axis
-    const numOfYAxis = 5;
 
     const axisX = axisBottom(x)
       .tickValues(dayTickValues)
@@ -166,13 +166,12 @@ class DailyRankChart extends React.Component<
           <g
             className="grid h-grid"
             ref={node => {
-              const hGrid = select(node);
-              hGrid
+              const grid = select(node);
+              grid
                 .call(horizontalLines as any)
                 .select(".domain")
                 .remove();
-              hGrid.selectAll(".tick line").attr("stroke", "#e1e1e1");
-              return hGrid;
+              grid.selectAll(".tick line").attr("stroke", "#e1e1e1");
             }}
           />
           <g
@@ -188,13 +187,12 @@ class DailyRankChart extends React.Component<
           <g
             className="axis axis-y"
             ref={node => {
-              const yAxis = select(node);
-              yAxis
+              const axis = select(node);
+              axis
                 .call(axisY as any)
                 .select(".domain")
                 .remove();
-              yAxis.selectAll(".tick line").remove();
-              return yAxis;
+              axis.selectAll(".tick line").remove();
             }}
           />
           <path className="line" d={valueLine(data as any) || ``} />
