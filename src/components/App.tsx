@@ -7,13 +7,15 @@ import TimeSeriesChart from "./TimeSeriesChart";
 import MultiTimeSeriesChart from "./MultiTimeSeriesChart";
 import DailyRankChart from "./DailyRankChart";
 import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
+import WeekActivityBarChart from "./WeekActivityBarChart";
 import withMeasureAndRender from "./withMeasureAndRender";
 import {
   timeSeriesInputData,
   barInputData,
   donutInputData,
   dailyRankingData,
-  multiTimeSeriesInputData
+  multiTimeSeriesInputData,
+  activitiesForWeek
 } from "../mock-data";
 
 const MeasuredBarChart = withMeasureAndRender(BarChart);
@@ -30,6 +32,11 @@ class App extends React.Component<{}, {}> {
     return (
       <main>
         <h1>React + D3 Examples</h1>
+        <WeekActivityBarChart
+          inputData={activitiesForWeek}
+          width={640}
+          height={200}
+        />
         <div style={{ width: "100%", height: "240px" }}>
           <MeasuredResponsiveDailyRankChart inputData={dailyRankingData} />
         </div>

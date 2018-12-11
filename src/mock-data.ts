@@ -52,3 +52,13 @@ export const multiTimeSeriesInputData: any[][] = (function() {
   }
   return results;
 })();
+
+export const activitiesForWeek = [
+  { date: 0, ratio: 0.3 }, // Sun
+  { date: 1, ratio: 0.245 }, // Mon
+  { date: 2, ratio: 0.25 }, // Tue
+  { date: 3, ratio: 0.24 }, // Wed
+  { date: 4, ratio: 0.22 }, // Thu
+  { date: 5, ratio: 0.26 }, // Fri
+  { date: 6, ratio: 0.29 } // Sat
+];
