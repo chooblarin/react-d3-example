@@ -4,6 +4,7 @@ import { min, max } from "d3-array";
 import { line, curveMonotoneX } from "d3-shape";
 import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
+import { Delaunay } from "d3-delaunay";
 
 import { InjectedProps } from "./withMeasureAndRender";
 import { DailyRank } from "../models/ranking-data";
@@ -117,12 +118,21 @@ function DailyRankChart({
     // create month-background rect
     const bgRects = monthBackgroundRects(start, end, x, h);
 
+    const points = data.map(({ day, rank }) => {
+      return [x(day), y(rank)];
+    });
+    const delaunay = Delaunay.from(points);
+    const voronoi = delaunay.voronoi([0, 0, w, h]);
+    const cellPolygons = voronoi.cellPolygons();
+
     return (
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {bgRects.map((d, i) => (
-            <path key={`${i}`} className={i % 2 === 0 ? "even" : "odd"} d={d} />
-          ))}
+          <g className="month-bg">
+            {bgRects.map((d, i) => (
+              <path key={`${i}`} d={d} />
+            ))}
+          </g>
           <g
             className="grid h-grid"
             ref={node => {
@@ -158,6 +168,14 @@ function DailyRankChart({
             }}
           />
           <path className="line" d={valueLine(data as any) || ``} />
+          <g className="voronoi">
+            {Array.from(cellPolygons).map((polygon, i) => {
+              const pathData = `M${polygon
+                .map(([x, y]) => `${x},${y}`)
+                .join("L")}Z`;
+              return <path d={pathData} key={`${i}`} />;
+            })}
+          </g>
         </g>
         <style jsx>
           {`
@@ -169,13 +187,17 @@ function DailyRankChart({
             .axis {
               color: #676767;
             }
-            .even {
+            .month-bg path:nth-child(even) {
               fill: #fcfdff;
               stroke: none;
             }
-            .odd {
+            .month-bg path:nth-child(odd) {
               fill: #f2f4f7;
               stroke: none;
+            }
+            .voronoi {
+              fill: none;
+              stroke: red;
             }
           `}
         </style>
