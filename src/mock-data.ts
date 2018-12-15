@@ -8,10 +8,10 @@ export const donutInputData = [
 ];
 
 export const barInputData = [
-  { letter: "h", frequency: 50 },
-  { letter: "u", frequency: 30 },
-  { letter: "l", frequency: 15 },
-  { letter: "k", frequency: 5 }
+  { letter: "Superman", frequency: 50 },
+  { letter: "Batman", frequency: 30 },
+  { letter: "Flash", frequency: 15 },
+  { letter: "Aquaman", frequency: 5 }
 ];
 
 export const timeSeriesInputData = [

@@ -35,7 +35,7 @@ function BarChart({
   y.domain([0, max<number, any>(inputData, getY)]);
 
   const axisX = axisBottom(x);
-  const axisY = axisLeft(y).ticks(10);
+  const axisY = axisLeft(y).ticks(4);
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -50,18 +50,25 @@ function BarChart({
           />
         ))}
         <g
-          className="axis axis--x"
+          className="axis axis-x"
           transform={`translate(0, ${h})`}
-          ref={node => select(node).call(axisX as any)}
+          ref={node => {
+            const axis = select(node).call(axisX as any);
+            axis.selectAll(".tick line").remove();
+          }}
         />
-        <g
-          className="axis axis--y"
-          ref={node => select(node).call(axisY as any)}
-        />
+        <g className="axis" ref={node => select(node).call(axisY as any)} />
       </g>
       <style jsx>{`
         rect {
-          fill: hotpink;
+          fill: #d8196c;
+        }
+        .axis {
+          color: #676767;
+          font-size: 0.8rem;
+        }
+        .axis-x {
+          font-size: calc(0.7rem + 0.2vw);
         }
       `}</style>
     </svg>

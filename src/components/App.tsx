@@ -1,24 +1,20 @@
 import React from "react";
 import dayjs from "dayjs";
 
-import BarChart from "./BarChart";
+import ExampleBarChart from "./ExampleBarChart";
 import DonutChart from "./DonutChart";
 import TimeSeriesChart from "./TimeSeriesChart";
 import MultiTimeSeriesChart from "./MultiTimeSeriesChart";
 import DailyRankChart from "./DailyRankChart";
 import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
-import WeekActivityBarChart from "./WeekActivityBarChart";
 import withMeasureAndRender from "./withMeasureAndRender";
 import {
   timeSeriesInputData,
-  barInputData,
   donutInputData,
   dailyRankingData,
-  multiTimeSeriesInputData,
-  activitiesForWeek
+  multiTimeSeriesInputData
 } from "../mock-data";
 
-const MeasuredBarChart = withMeasureAndRender(BarChart);
 const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
 const MeasuredMultiTimeSeriesChart = withMeasureAndRender(MultiTimeSeriesChart);
 const MeasuredDonutChart = withMeasureAndRender(DonutChart);
@@ -32,11 +28,7 @@ class App extends React.Component<{}, {}> {
     return (
       <main>
         <h1>React + D3 Examples</h1>
-        <WeekActivityBarChart
-          inputData={activitiesForWeek}
-          width={640}
-          height={200}
-        />
+        <ExampleBarChart />
         <div style={{ width: "100%", height: "240px" }}>
           <MeasuredResponsiveDailyRankChart inputData={dailyRankingData} />
         </div>
@@ -54,13 +46,6 @@ class App extends React.Component<{}, {}> {
         <div style={{ width: "100%", height: "240px" }}>
           <MeasuredMultiTimeSeriesChart
             mutiInputData={multiTimeSeriesInputData}
-          />
-        </div>
-        <div style={{ width: "80%", height: "300px" }}>
-          <MeasuredBarChart
-            inputData={barInputData}
-            getX={item => item.letter}
-            getY={item => item.frequency}
           />
         </div>
         <div style={{ width: "50vw", height: "50vw" }}>
@@ -83,7 +68,7 @@ class App extends React.Component<{}, {}> {
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 1000px;
+            max-width: 960px;
             margin: 0 auto;
           }
         `}</style>
