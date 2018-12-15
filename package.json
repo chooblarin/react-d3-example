@@ -6,6 +6,8 @@
   "scripts": {
     "start": "parcel serve src/index.html",
     "build": "cross-env NODE_ENV=production parcel build src/index.html --public-url .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "docz:dev": "docz dev",
     "docz:build": "docz build"
   },
@@ -46,6 +48,7 @@
     "@types/styled-jsx": "^2.2.7",
     "cross-env": "^5.2.0",
     "docz": "^0.12.15",
+    "gh-pages": "^2.0.1",
     "parcel-bundler": "^1.10.3",
     "typescript": "^3.2.2"
   }
