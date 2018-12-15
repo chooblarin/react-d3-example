@@ -62,30 +62,3 @@ export const activitiesForWeek = [
   { date: 5, ratio: 0.26 }, // Fri
   { date: 6, ratio: 0.29 } // Sat
 ];
-
-export const activityesForDay = [
-  { hour: 0, ratio: 0.58 },
-  { hour: 1, ratio: 0.54 },
-  { hour: 2, ratio: 0.49 },
-  { hour: 3, ratio: 0.38 },
-  { hour: 4, ratio: 0.2 },
-  { hour: 5, ratio: 0.16 },
-  { hour: 6, ratio: 0.19 },
-  { hour: 7, ratio: 0.2 },
-  { hour: 8, ratio: 0.24 },
-  { hour: 9, ratio: 0.25 },
-  { hour: 10, ratio: 0.29 },
-  { hour: 11, ratio: 0.3 },
-  { hour: 12, ratio: 0.4 },
-  { hour: 13, ratio: 0.5 },
-  { hour: 14, ratio: 0.46 },
-  { hour: 15, ratio: 0.44 },
-  { hour: 16, ratio: 0.42 },
-  { hour: 17, ratio: 0.36 },
-  { hour: 18, ratio: 0.35 },
-  { hour: 19, ratio: 0.55 },
-  { hour: 20, ratio: 0.6 },
-  { hour: 21, ratio: 0.64 },
-  { hour: 22, ratio: 0.58 },
-  { hour: 23, ratio: 0.54 }
-];
