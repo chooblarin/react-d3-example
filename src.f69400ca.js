@@ -34793,7 +34793,7 @@ Object.defineProperty(exports, "axisLeft", {
 });
 
 var _axis = require("./axis");
-},{"./axis":"../node_modules/d3-axis/src/axis.js"}],"components/BarChart.tsx":[function(require,module,exports) {
+},{"./axis":"../node_modules/d3-axis/src/axis.js"}],"components/barcharts/BarChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34820,6 +34820,168 @@ function BarChart(_ref) {
       width = _ref.width,
       height = _ref.height,
       getX = _ref.getX,
+      getY = _ref.getY,
+      color = _ref.color;
+  var margin = {
+    top: 20,
+    right: 20,
+    bottom: 30,
+    left: 40
+  }; // Make sure w and h would be larger than or equal to 0
+
+  var w = Math.max(0, width - margin.left - margin.right);
+  var h = Math.max(0, height - margin.top - margin.bottom);
+  var x = (0, _d3Scale.scaleBand)().rangeRound([0, w]).padding(0.4);
+  var y = (0, _d3Scale.scaleLinear)().rangeRound([h, 0]);
+  x.domain(inputData.map(getX));
+  y.domain([0, (0, _d3Array.max)(inputData, getY)]);
+  var axisX = (0, _d3Axis.axisBottom)(x);
+  var axisY = (0, _d3Axis.axisLeft)(y).ticks(4);
+  return _react.default.createElement("svg", {
+    width: width,
+    height: height,
+    className: _style.default.dynamic([["1236704744", [color || "#d8196c"]]])
+  }, _react.default.createElement("g", {
+    transform: "translate(".concat(margin.left, ", ").concat(margin.top, ")"),
+    className: _style.default.dynamic([["1236704744", [color || "#d8196c"]]])
+  }, inputData.map(function (item, i) {
+    return _react.default.createElement("rect", {
+      key: "".concat(i),
+      x: x(getX(item)),
+      y: y(getY(item)),
+      width: x.bandwidth(),
+      height: h - y(getY(item)),
+      className: _style.default.dynamic([["1236704744", [color || "#d8196c"]]])
+    });
+  }), _react.default.createElement("g", {
+    transform: "translate(0, ".concat(h, ")"),
+    ref: function ref(node) {
+      var axis = (0, _d3Selection.select)(node).call(axisX);
+      axis.selectAll(".tick line").remove();
+    },
+    className: _style.default.dynamic([["1236704744", [color || "#d8196c"]]]) + " " + "axis axis-x"
+  }), _react.default.createElement("g", {
+    ref: function ref(node) {
+      return (0, _d3Selection.select)(node).call(axisY);
+    },
+    className: _style.default.dynamic([["1236704744", [color || "#d8196c"]]]) + " " + "axis"
+  })), _react.default.createElement(_style.default, {
+    styleId: "1236704744",
+    css: "rect.__jsx-style-dynamic-selector{fill:".concat(color || "#d8196c", ";}.axis.__jsx-style-dynamic-selector{color:#676767;font-size:0.8rem;}.axis-x.__jsx-style-dynamic-selector{font-size:calc(0.7rem + 0.2vw);}"),
+    dynamic: [color || "#d8196c"]
+  }));
+}
+
+var _default = BarChart;
+exports.default = _default;
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/barcharts/RoundedBarChart.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _style = _interopRequireDefault(require("styled-jsx/style"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _d3Scale = require("d3-scale");
+
+var _d3Selection = require("d3-selection");
+
+var _d3Array = require("d3-array");
+
+var _d3Axis = require("d3-axis");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function RoundedBarChart(_ref) {
+  var inputData = _ref.inputData,
+      width = _ref.width,
+      height = _ref.height,
+      getX = _ref.getX,
+      getY = _ref.getY,
+      color = _ref.color,
+      radius = _ref.radius;
+  var margin = {
+    top: 20,
+    right: 20,
+    bottom: 30,
+    left: 40
+  }; // Make sure w and h would be larger than or equal to 0
+
+  var w = Math.max(0, width - margin.left - margin.right);
+  var h = Math.max(0, height - margin.top - margin.bottom);
+  var x = (0, _d3Scale.scaleBand)().rangeRound([0, w]).padding(0.4);
+  var y = (0, _d3Scale.scaleLinear)().rangeRound([h, 0]);
+  x.domain(inputData.map(getX));
+  y.domain([0, (0, _d3Array.max)(inputData, getY)]);
+  var axisX = (0, _d3Axis.axisBottom)(x);
+  var axisY = (0, _d3Axis.axisLeft)(y).ticks(4);
+  return _react.default.createElement("svg", {
+    width: width,
+    height: height,
+    className: _style.default.dynamic([["2658241041", [color || "#d8196c"]]])
+  }, _react.default.createElement("g", {
+    transform: "translate(".concat(margin.left, ", ").concat(margin.top, ")"),
+    className: _style.default.dynamic([["2658241041", [color || "#d8196c"]]])
+  }, inputData.map(function (item, i) {
+    var bw = x.bandwidth();
+    var bh = h - y(getY(item));
+    return _react.default.createElement("path", {
+      d: "M".concat(x(getX(item)), ",").concat(h, "\n              v").concat(-bh + radius, "\n              a").concat(radius, ",").concat(radius, " 0 0 1 ").concat(radius, ",").concat(-radius, "\n              h").concat(bw - 2 * radius, "\n              a").concat(radius, ",").concat(radius, " 0 0 1 ").concat(radius, ",").concat(radius, "\n              v").concat(bh - radius, "Z"),
+      key: "".concat(i),
+      className: _style.default.dynamic([["2658241041", [color || "#d8196c"]]])
+    });
+  }), _react.default.createElement("g", {
+    transform: "translate(0, ".concat(h, ")"),
+    ref: function ref(node) {
+      var axis = (0, _d3Selection.select)(node).call(axisX);
+      axis.selectAll(".tick line").remove();
+    },
+    className: _style.default.dynamic([["2658241041", [color || "#d8196c"]]]) + " " + "axis axis-x"
+  }), _react.default.createElement("g", {
+    ref: function ref(node) {
+      return (0, _d3Selection.select)(node).call(axisY);
+    },
+    className: _style.default.dynamic([["2658241041", [color || "#d8196c"]]]) + " " + "axis"
+  })), _react.default.createElement(_style.default, {
+    styleId: "2658241041",
+    css: "path.__jsx-style-dynamic-selector{fill:".concat(color || "#d8196c", ";}.axis.__jsx-style-dynamic-selector{color:#676767;font-size:0.8rem;}.axis-x.__jsx-style-dynamic-selector{font-size:calc(0.7rem + 0.2vw);}"),
+    dynamic: [color || "#d8196c"]
+  }));
+}
+
+var _default = RoundedBarChart;
+exports.default = _default;
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/barcharts/GradientBarChart.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _style = _interopRequireDefault(require("styled-jsx/style"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _d3Scale = require("d3-scale");
+
+var _d3Selection = require("d3-selection");
+
+var _d3Array = require("d3-array");
+
+var _d3Axis = require("d3-axis");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function GradientBarChart(_ref) {
+  var inputData = _ref.inputData,
+      width = _ref.width,
+      height = _ref.height,
+      getX = _ref.getX,
       getY = _ref.getY;
   var margin = {
     top: 20,
@@ -34830,7 +34992,7 @@ function BarChart(_ref) {
 
   var w = Math.max(0, width - margin.left - margin.right);
   var h = Math.max(0, height - margin.top - margin.bottom);
-  var x = (0, _d3Scale.scaleBand)().rangeRound([0, w]).padding(0.1);
+  var x = (0, _d3Scale.scaleBand)().rangeRound([0, w]).padding(0.4);
   var y = (0, _d3Scale.scaleLinear)().rangeRound([h, 0]);
   x.domain(inputData.map(getX));
   y.domain([0, (0, _d3Array.max)(inputData, getY)]);
@@ -34839,18 +35001,36 @@ function BarChart(_ref) {
   return _react.default.createElement("svg", {
     width: width,
     height: height,
-    className: "jsx-2448852574"
-  }, _react.default.createElement("g", {
+    className: "jsx-1814308960"
+  }, _react.default.createElement("defs", {
+    className: "jsx-1814308960"
+  }, _react.default.createElement("linearGradient", {
+    id: "bg-gradient",
+    x1: "0",
+    x2: "0",
+    y1: "0",
+    y2: "1",
+    className: "jsx-1814308960"
+  }, _react.default.createElement("stop", {
+    stopColor: "#8856a7",
+    offset: "0%",
+    className: "jsx-1814308960"
+  }), _react.default.createElement("stop", {
+    stopColor: "#9ebcda",
+    offset: "100%",
+    className: "jsx-1814308960"
+  }))), _react.default.createElement("g", {
     transform: "translate(".concat(margin.left, ", ").concat(margin.top, ")"),
-    className: "jsx-2448852574"
+    className: "jsx-1814308960"
   }, inputData.map(function (item, i) {
     return _react.default.createElement("rect", {
       key: "".concat(i),
-      x: x(item.letter),
-      y: y(item.frequency),
+      x: x(getX(item)),
+      y: y(getY(item)),
       width: x.bandwidth(),
-      height: h - y(item.frequency),
-      className: "jsx-2448852574" + " " + "bar"
+      height: h - y(getY(item)),
+      fill: "url(#bg-gradient)",
+      className: "jsx-1814308960"
     });
   }), _react.default.createElement("g", {
     transform: "translate(0, ".concat(h, ")"),
@@ -34858,21 +35038,128 @@ function BarChart(_ref) {
       var axis = (0, _d3Selection.select)(node).call(axisX);
       axis.selectAll(".tick line").remove();
     },
-    className: "jsx-2448852574" + " " + "axis axis-x"
+    className: "jsx-1814308960" + " " + "axis axis-x"
   }), _react.default.createElement("g", {
     ref: function ref(node) {
       return (0, _d3Selection.select)(node).call(axisY);
     },
-    className: "jsx-2448852574" + " " + "axis"
+    className: "jsx-1814308960" + " " + "axis"
   })), _react.default.createElement(_style.default, {
-    styleId: "2448852574",
-    css: "rect.jsx-2448852574{fill:#d8196c;}.axis.jsx-2448852574{color:#676767;font-size:0.8rem;}.axis-x.jsx-2448852574{font-size:calc(0.7rem + 0.2vw);}"
+    styleId: "1814308960",
+    css: ".axis.jsx-1814308960{color:#676767;font-size:0.8rem;}.axis-x.jsx-1814308960{font-size:calc(0.7rem + 0.2vw);}"
   }));
 }
 
-var _default = BarChart;
+var _default = GradientBarChart;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/WeekActivityBarChart.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/barcharts/GradientBarChart2.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _style = _interopRequireDefault(require("styled-jsx/style"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _d3Scale = require("d3-scale");
+
+var _d3Selection = require("d3-selection");
+
+var _d3Array = require("d3-array");
+
+var _d3Axis = require("d3-axis");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function GradientBarChart2(_ref) {
+  var inputData = _ref.inputData,
+      width = _ref.width,
+      height = _ref.height,
+      getX = _ref.getX,
+      getY = _ref.getY;
+  var margin = {
+    top: 20,
+    right: 20,
+    bottom: 30,
+    left: 40
+  }; // Make sure w and h would be larger than or equal to 0
+
+  var w = Math.max(0, width - margin.left - margin.right);
+  var h = Math.max(0, height - margin.top - margin.bottom);
+  var x = (0, _d3Scale.scaleBand)().rangeRound([0, w]).padding(0.4);
+  var y = (0, _d3Scale.scaleLinear)().rangeRound([h, 0]);
+  x.domain(inputData.map(getX));
+  y.domain([0, (0, _d3Array.max)(inputData, getY)]);
+  var axisX = (0, _d3Axis.axisBottom)(x);
+  var axisY = (0, _d3Axis.axisLeft)(y).ticks(4);
+  return _react.default.createElement("svg", {
+    width: width,
+    height: height,
+    className: "jsx-1814308960"
+  }, _react.default.createElement("defs", {
+    className: "jsx-1814308960"
+  }, _react.default.createElement("linearGradient", {
+    id: "bg-gradient",
+    x1: "0",
+    x2: "0",
+    y1: "0",
+    y2: "1",
+    className: "jsx-1814308960"
+  }, _react.default.createElement("stop", {
+    stopColor: "#8856a7",
+    offset: "0%",
+    className: "jsx-1814308960"
+  }), _react.default.createElement("stop", {
+    stopColor: "#9ebcda",
+    offset: "100%",
+    className: "jsx-1814308960"
+  })), _react.default.createElement("clipPath", {
+    id: "clip-bar-rects",
+    className: "jsx-1814308960"
+  }, inputData.map(function (item, i) {
+    return _react.default.createElement("rect", {
+      key: "".concat(i),
+      x: x(getX(item)),
+      y: y(getY(item)),
+      width: x.bandwidth(),
+      height: h - y(getY(item)),
+      className: "jsx-1814308960"
+    });
+  }))), _react.default.createElement("g", {
+    transform: "translate(".concat(margin.left, ", ").concat(margin.top, ")"),
+    className: "jsx-1814308960"
+  }, _react.default.createElement("rect", {
+    clipPath: "url(#clip-bar-rects)",
+    x: 0,
+    y: 0,
+    width: w,
+    height: h,
+    fill: "url(#bg-gradient)",
+    className: "jsx-1814308960"
+  }), _react.default.createElement("g", {
+    transform: "translate(0, ".concat(h, ")"),
+    ref: function ref(node) {
+      var axis = (0, _d3Selection.select)(node).call(axisX);
+      axis.selectAll(".tick line").remove();
+    },
+    className: "jsx-1814308960" + " " + "axis axis-x"
+  }), _react.default.createElement("g", {
+    ref: function ref(node) {
+      return (0, _d3Selection.select)(node).call(axisY);
+    },
+    className: "jsx-1814308960" + " " + "axis"
+  })), _react.default.createElement(_style.default, {
+    styleId: "1814308960",
+    css: ".axis.jsx-1814308960{color:#676767;font-size:0.8rem;}.axis-x.jsx-1814308960{font-size:calc(0.7rem + 0.2vw);}"
+  }));
+}
+
+var _default = GradientBarChart2;
+exports.default = _default;
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/barcharts/WeekActivityBarChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35004,7 +35291,7 @@ var define;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.activitiesForWeek = exports.multiTimeSeriesInputData = exports.dailyRankingData = exports.timeSeriesInputData = exports.barInputData = exports.donutInputData = void 0;
+exports.activitiesForWeek = exports.multiTimeSeriesInputData = exports.dailyMockData = exports.timeSeriesInputData = exports.barInputData = exports.donutInputData = void 0;
 
 var _dayjs = _interopRequireDefault(require("dayjs"));
 
@@ -35053,16 +35340,16 @@ var timeSeriesInputData = [{
 }];
 exports.timeSeriesInputData = timeSeriesInputData;
 var lastDay = (0, _dayjs.default)("2018-12-10");
-var dailyRankingData = Array(7 * 10) // 10 weeks
+var dailyMockData = Array(7 * 10) // 10 weeks
 .fill(null).map(function (_, i) {
   var day = lastDay.add(-i, "day");
-  var rank = Math.floor(10 * Math.random() + 20);
+  var value = Math.floor(10 * Math.random() + 20);
   return {
     day: day,
-    rank: rank
+    value: value
   };
 });
-exports.dailyRankingData = dailyRankingData;
+exports.dailyMockData = dailyMockData;
 
 var multiTimeSeriesInputData = function () {
   var numOfSeries = 3;
@@ -35129,24 +35416,35 @@ var _react = _interopRequireDefault(require("react"));
 
 var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
 
-var _BarChart = _interopRequireDefault(require("./BarChart"));
+var _BarChart = _interopRequireDefault(require("./barcharts/BarChart"));
 
-var _WeekActivityBarChart = _interopRequireDefault(require("./WeekActivityBarChart"));
+var _RoundedBarChart = _interopRequireDefault(require("./barcharts/RoundedBarChart"));
+
+var _GradientBarChart = _interopRequireDefault(require("./barcharts/GradientBarChart"));
+
+var _GradientBarChart2 = _interopRequireDefault(require("./barcharts/GradientBarChart2"));
+
+var _WeekActivityBarChart = _interopRequireDefault(require("./barcharts/WeekActivityBarChart"));
 
 var _mockData = require("../mock-data");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MeasuredBarChart = (0, _withMeasureAndRender.default)(_BarChart.default);
+var MeasuredRoundedBarChart = (0, _withMeasureAndRender.default)(_RoundedBarChart.default);
+var MeasuredGradientBarChart = (0, _withMeasureAndRender.default)(_GradientBarChart.default);
+var MeasuredGradientBarChart2 = (0, _withMeasureAndRender.default)(_GradientBarChart2.default);
 var MeasuredWeekActivityBarChart = (0, _withMeasureAndRender.default)(_WeekActivityBarChart.default);
 
 var _default = function _default() {
   return _react.default.createElement("section", {
-    className: "jsx-3576380508"
+    className: "jsx-181832623"
   }, _react.default.createElement("h2", {
-    className: "jsx-3576380508"
-  }, "Bar Chart"), _react.default.createElement("div", {
-    className: "jsx-3576380508" + " " + "chart-container"
+    className: "jsx-181832623"
+  }, "Bar Chart"), _react.default.createElement("h3", {
+    className: "jsx-181832623"
+  }, "Normal"), _react.default.createElement("div", {
+    className: "jsx-181832623" + " " + "chart-container"
   }, _react.default.createElement(MeasuredBarChart, {
     inputData: _mockData.barInputData,
     getX: function getX(item) {
@@ -35155,18 +35453,58 @@ var _default = function _default() {
     getY: function getY(item) {
       return item.frequency;
     }
-  })), _react.default.createElement("div", {
-    className: "jsx-3576380508" + " " + "chart-container"
+  })), _react.default.createElement("h3", {
+    className: "jsx-181832623"
+  }, "Rounded Bar Chart"), _react.default.createElement("div", {
+    className: "jsx-181832623" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredRoundedBarChart, {
+    inputData: _mockData.barInputData,
+    getX: function getX(item) {
+      return item.letter;
+    },
+    getY: function getY(item) {
+      return item.frequency;
+    },
+    radius: 12,
+    color: "#5ca462"
+  })), _react.default.createElement("h3", {
+    className: "jsx-181832623"
+  }, "Gradient Bar Chart"), _react.default.createElement("div", {
+    className: "jsx-181832623" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredGradientBarChart, {
+    inputData: _mockData.barInputData,
+    getX: function getX(item) {
+      return item.letter;
+    },
+    getY: function getY(item) {
+      return item.frequency;
+    }
+  })), _react.default.createElement("h3", {
+    className: "jsx-181832623"
+  }, "Gradient Bar Chart 2"), _react.default.createElement("div", {
+    className: "jsx-181832623" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredGradientBarChart2, {
+    inputData: _mockData.barInputData,
+    getX: function getX(item) {
+      return item.letter;
+    },
+    getY: function getY(item) {
+      return item.frequency;
+    }
+  })), _react.default.createElement("h3", {
+    className: "jsx-181832623"
+  }, "No Axis Bar Chart"), _react.default.createElement("div", {
+    className: "jsx-181832623" + " " + "chart-container"
   }, _react.default.createElement(MeasuredWeekActivityBarChart, {
     inputData: _mockData.activitiesForWeek
   })), _react.default.createElement(_style.default, {
-    styleId: "3576380508",
-    css: "section.jsx-3576380508{width:100%;}h2.jsx-3576380508{margin:1rem 20px;}.chart-container.jsx-3576380508{width:100%;height:160px;}"
+    styleId: "181832623",
+    css: "section.jsx-181832623{width:90%;}.chart-container.jsx-181832623{width:100%;height:160px;}"
   }));
 };
 
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./BarChart":"components/BarChart.tsx","./WeekActivityBarChart":"components/WeekActivityBarChart.tsx","../mock-data":"mock-data.ts"}],"../node_modules/d3-path/src/path.js":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./barcharts/BarChart":"components/barcharts/BarChart.tsx","./barcharts/RoundedBarChart":"components/barcharts/RoundedBarChart.tsx","./barcharts/GradientBarChart":"components/barcharts/GradientBarChart.tsx","./barcharts/GradientBarChart2":"components/barcharts/GradientBarChart2.tsx","./barcharts/WeekActivityBarChart":"components/barcharts/WeekActivityBarChart.tsx","../mock-data":"mock-data.ts"}],"../node_modules/d3-path/src/path.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38365,7 +38703,7 @@ var _reverse = _interopRequireDefault(require("./order/reverse"));
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./arc":"../node_modules/d3-shape/src/arc.js","./area":"../node_modules/d3-shape/src/area.js","./line":"../node_modules/d3-shape/src/line.js","./pie":"../node_modules/d3-shape/src/pie.js","./areaRadial":"../node_modules/d3-shape/src/areaRadial.js","./lineRadial":"../node_modules/d3-shape/src/lineRadial.js","./pointRadial":"../node_modules/d3-shape/src/pointRadial.js","./link/index":"../node_modules/d3-shape/src/link/index.js","./symbol":"../node_modules/d3-shape/src/symbol.js","./symbol/circle":"../node_modules/d3-shape/src/symbol/circle.js","./symbol/cross":"../node_modules/d3-shape/src/symbol/cross.js","./symbol/diamond":"../node_modules/d3-shape/src/symbol/diamond.js","./symbol/square":"../node_modules/d3-shape/src/symbol/square.js","./symbol/star":"../node_modules/d3-shape/src/symbol/star.js","./symbol/triangle":"../node_modules/d3-shape/src/symbol/triangle.js","./symbol/wye":"../node_modules/d3-shape/src/symbol/wye.js","./curve/basisClosed":"../node_modules/d3-shape/src/curve/basisClosed.js","./curve/basisOpen":"../node_modules/d3-shape/src/curve/basisOpen.js","./curve/basis":"../node_modules/d3-shape/src/curve/basis.js","./curve/bundle":"../node_modules/d3-shape/src/curve/bundle.js","./curve/cardinalClosed":"../node_modules/d3-shape/src/curve/cardinalClosed.js","./curve/cardinalOpen":"../node_modules/d3-shape/src/curve/cardinalOpen.js","./curve/cardinal":"../node_modules/d3-shape/src/curve/cardinal.js","./curve/catmullRomClosed":"../node_modules/d3-shape/src/curve/catmullRomClosed.js","./curve/catmullRomOpen":"../node_modules/d3-shape/src/curve/catmullRomOpen.js","./curve/catmullRom":"../node_modules/d3-shape/src/curve/catmullRom.js","./curve/linearClosed":"../node_modules/d3-shape/src/curve/linearClosed.js","./curve/linear":"../node_modules/d3-shape/src/curve/linear.js","./curve/monotone":"../node_modules/d3-shape/src/curve/monotone.js","./curve/natural":"../node_modules/d3-shape/src/curve/natural.js","./curve/step":"../node_modules/d3-shape/src/curve/step.js","./stack":"../node_modules/d3-shape/src/stack.js","./offset/expand":"../node_modules/d3-shape/src/offset/expand.js","./offset/diverging":"../node_modules/d3-shape/src/offset/diverging.js","./offset/none":"../node_modules/d3-shape/src/offset/none.js","./offset/silhouette":"../node_modules/d3-shape/src/offset/silhouette.js","./offset/wiggle":"../node_modules/d3-shape/src/offset/wiggle.js","./order/ascending":"../node_modules/d3-shape/src/order/ascending.js","./order/descending":"../node_modules/d3-shape/src/order/descending.js","./order/insideOut":"../node_modules/d3-shape/src/order/insideOut.js","./order/none":"../node_modules/d3-shape/src/order/none.js","./order/reverse":"../node_modules/d3-shape/src/order/reverse.js"}],"components/TimeSeriesChart.tsx":[function(require,module,exports) {
+},{"./arc":"../node_modules/d3-shape/src/arc.js","./area":"../node_modules/d3-shape/src/area.js","./line":"../node_modules/d3-shape/src/line.js","./pie":"../node_modules/d3-shape/src/pie.js","./areaRadial":"../node_modules/d3-shape/src/areaRadial.js","./lineRadial":"../node_modules/d3-shape/src/lineRadial.js","./pointRadial":"../node_modules/d3-shape/src/pointRadial.js","./link/index":"../node_modules/d3-shape/src/link/index.js","./symbol":"../node_modules/d3-shape/src/symbol.js","./symbol/circle":"../node_modules/d3-shape/src/symbol/circle.js","./symbol/cross":"../node_modules/d3-shape/src/symbol/cross.js","./symbol/diamond":"../node_modules/d3-shape/src/symbol/diamond.js","./symbol/square":"../node_modules/d3-shape/src/symbol/square.js","./symbol/star":"../node_modules/d3-shape/src/symbol/star.js","./symbol/triangle":"../node_modules/d3-shape/src/symbol/triangle.js","./symbol/wye":"../node_modules/d3-shape/src/symbol/wye.js","./curve/basisClosed":"../node_modules/d3-shape/src/curve/basisClosed.js","./curve/basisOpen":"../node_modules/d3-shape/src/curve/basisOpen.js","./curve/basis":"../node_modules/d3-shape/src/curve/basis.js","./curve/bundle":"../node_modules/d3-shape/src/curve/bundle.js","./curve/cardinalClosed":"../node_modules/d3-shape/src/curve/cardinalClosed.js","./curve/cardinalOpen":"../node_modules/d3-shape/src/curve/cardinalOpen.js","./curve/cardinal":"../node_modules/d3-shape/src/curve/cardinal.js","./curve/catmullRomClosed":"../node_modules/d3-shape/src/curve/catmullRomClosed.js","./curve/catmullRomOpen":"../node_modules/d3-shape/src/curve/catmullRomOpen.js","./curve/catmullRom":"../node_modules/d3-shape/src/curve/catmullRom.js","./curve/linearClosed":"../node_modules/d3-shape/src/curve/linearClosed.js","./curve/linear":"../node_modules/d3-shape/src/curve/linear.js","./curve/monotone":"../node_modules/d3-shape/src/curve/monotone.js","./curve/natural":"../node_modules/d3-shape/src/curve/natural.js","./curve/step":"../node_modules/d3-shape/src/curve/step.js","./stack":"../node_modules/d3-shape/src/stack.js","./offset/expand":"../node_modules/d3-shape/src/offset/expand.js","./offset/diverging":"../node_modules/d3-shape/src/offset/diverging.js","./offset/none":"../node_modules/d3-shape/src/offset/none.js","./offset/silhouette":"../node_modules/d3-shape/src/offset/silhouette.js","./offset/wiggle":"../node_modules/d3-shape/src/offset/wiggle.js","./order/ascending":"../node_modules/d3-shape/src/order/ascending.js","./order/descending":"../node_modules/d3-shape/src/order/descending.js","./order/insideOut":"../node_modules/d3-shape/src/order/insideOut.js","./order/none":"../node_modules/d3-shape/src/order/none.js","./order/reverse":"../node_modules/d3-shape/src/order/reverse.js"}],"components/linecharts/TimeSeriesChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38442,7 +38780,7 @@ function TimeSeriesChart(_ref) {
 
 var _default = TimeSeriesChart;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/MultiTimeSeriesChart.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/linecharts/MultiTimeSeriesChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38576,9 +38914,9 @@ var _dayjs = _interopRequireDefault(require("dayjs"));
 
 var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
 
-var _TimeSeriesChart = _interopRequireDefault(require("./TimeSeriesChart"));
+var _TimeSeriesChart = _interopRequireDefault(require("./linecharts/TimeSeriesChart"));
 
-var _MultiTimeSeriesChart = _interopRequireDefault(require("./MultiTimeSeriesChart"));
+var _MultiTimeSeriesChart = _interopRequireDefault(require("./linecharts/MultiTimeSeriesChart"));
 
 var _mockData = require("../mock-data");
 
@@ -38624,7 +38962,7 @@ var _default = function _default() {
 };
 
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./TimeSeriesChart":"components/TimeSeriesChart.tsx","./MultiTimeSeriesChart":"components/MultiTimeSeriesChart.tsx","../mock-data":"mock-data.ts"}],"components/DonutChart.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./linecharts/TimeSeriesChart":"components/linecharts/TimeSeriesChart.tsx","./linecharts/MultiTimeSeriesChart":"components/linecharts/MultiTimeSeriesChart.tsx","../mock-data":"mock-data.ts"}],"components/DonutChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39911,7 +40249,7 @@ var _delaunay = _interopRequireDefault(require("./delaunay.js"));
 var _voronoi = _interopRequireDefault(require("./voronoi.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./delaunay.js":"../node_modules/d3-delaunay/src/delaunay.js","./voronoi.js":"../node_modules/d3-delaunay/src/voronoi.js"}],"components/DailyRankChart.tsx":[function(require,module,exports) {
+},{"./delaunay.js":"../node_modules/d3-delaunay/src/delaunay.js","./voronoi.js":"../node_modules/d3-delaunay/src/voronoi.js"}],"components/linecharts/DailyLineChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40007,24 +40345,24 @@ var generateDayTickValues = function generateDayTickValues(start, end) {
   return results;
 };
 
-var DailyRankChart =
+var DailyLineChart =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(DailyRankChart, _React$Component);
+  _inherits(DailyLineChart, _React$Component);
 
-  function DailyRankChart(props) {
+  function DailyLineChart(props) {
     var _this;
 
-    _classCallCheck(this, DailyRankChart);
+    _classCallCheck(this, DailyLineChart);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(DailyRankChart).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DailyLineChart).call(this, props));
     _this.state = {
       hoveredIndex: null
     };
     return _this;
   }
 
-  _createClass(DailyRankChart, [{
+  _createClass(DailyLineChart, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -40046,7 +40384,7 @@ function (_React$Component) {
       };
 
       var getY = function getY(item) {
-        return item.rank;
+        return item.value;
       };
 
       var margin = {
@@ -40067,7 +40405,7 @@ function (_React$Component) {
       var maxY = (0, _d3Array.max)(data, getY) || 0;
       var upperMargin = 3;
       var lowerMargin = 10;
-      var y = (0, _d3Scale.scaleLinear)().range([h, 0]).domain([maxY + lowerMargin, Math.max(0, minY - upperMargin)]).nice();
+      var y = (0, _d3Scale.scaleLinear)().range([h, 0]).domain([Math.max(0, minY - upperMargin), maxY + lowerMargin]).nice();
       var valueLine = (0, _d3Shape.line)().x(function (d) {
         return x(getX(d));
       }).y(function (d) {
@@ -40089,8 +40427,8 @@ function (_React$Component) {
       var bgRects = monthBackgroundRects(start, end, x, h);
       var points = data.map(function (_ref) {
         var day = _ref.day,
-            rank = _ref.rank;
-        return [x(day), y(rank)];
+            value = _ref.value;
+        return [x(day), y(value)];
       });
 
       var delaunay = _d3Delaunay.Delaunay.from(points);
@@ -40103,16 +40441,16 @@ function (_React$Component) {
       if (hoveredIndex !== null) {
         var _data$hoveredIndex = data[hoveredIndex],
             day = _data$hoveredIndex.day,
-            rank = _data$hoveredIndex.rank;
+            value = _data$hoveredIndex.value;
         tooltip = _react.default.createElement("g", {
           className: "tooltop",
-          transform: "translate(".concat(x(day), ", ").concat(y(rank), ")")
+          transform: "translate(".concat(x(day), ", ").concat(y(value), ")")
         }, _react.default.createElement("circle", {
           r: 3.5
         }), _react.default.createElement("text", {
           y: -10,
           fontSize: 12
-        }, "rank: ".concat(rank)));
+        }, "value: ".concat(value)));
       } else {
         tooltip = null;
       }
@@ -40197,12 +40535,12 @@ function (_React$Component) {
     }
   }]);
 
-  return DailyRankChart;
+  return DailyLineChart;
 }(_react.default.Component);
 
-var _default = DailyRankChart;
+var _default = DailyLineChart;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-delaunay":"../node_modules/d3-delaunay/src/index.js"}],"components/ResponsiveDailyRankChart.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-delaunay":"../node_modules/d3-delaunay/src/index.js"}],"components/linecharts/ResponsiveDailyLineChart.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40212,7 +40550,7 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _DailyRankChart = _interopRequireDefault(require("./DailyRankChart"));
+var _DailyLineChart = _interopRequireDefault(require("./DailyLineChart"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40220,7 +40558,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function ResponsiveDailyRankChart(props) {
+function ResponsiveDailyLineChart(props) {
   var width = props.width,
       inputData = props.inputData;
   var sorted = inputData.sort(function (a, b) {
@@ -40240,12 +40578,12 @@ function ResponsiveDailyRankChart(props) {
     inputData: adjustedData
   });
 
-  return _react.default.createElement(_DailyRankChart.default, adjustedProps);
+  return _react.default.createElement(_DailyLineChart.default, adjustedProps);
 }
 
-var _default = ResponsiveDailyRankChart;
+var _default = ResponsiveDailyLineChart;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./DailyRankChart":"components/DailyRankChart.tsx"}],"components/App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./DailyLineChart":"components/linecharts/DailyLineChart.tsx"}],"components/App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40263,9 +40601,9 @@ var _ExampleLineChart = _interopRequireDefault(require("./ExampleLineChart"));
 
 var _ExambleDonutChart = _interopRequireDefault(require("./ExambleDonutChart"));
 
-var _DailyRankChart = _interopRequireDefault(require("./DailyRankChart"));
+var _DailyLineChart = _interopRequireDefault(require("./linecharts/DailyLineChart"));
 
-var _ResponsiveDailyRankChart = _interopRequireDefault(require("./ResponsiveDailyRankChart"));
+var _ResponsiveDailyLineChart = _interopRequireDefault(require("./linecharts/ResponsiveDailyLineChart"));
 
 var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
 
@@ -40291,8 +40629,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var MeasuredDailyRankChart = (0, _withMeasureAndRender.default)(_DailyRankChart.default);
-var MeasuredResponsiveDailyRankChart = (0, _withMeasureAndRender.default)(_ResponsiveDailyRankChart.default);
+var MeasuredDailyLineChart = (0, _withMeasureAndRender.default)(_DailyLineChart.default);
+var MeasuredResponsiveDailyLineChart = (0, _withMeasureAndRender.default)(_ResponsiveDailyLineChart.default);
 
 var App =
 /*#__PURE__*/
@@ -40318,16 +40656,16 @@ function (_React$Component) {
           height: "240px"
         },
         className: "jsx-3900353234"
-      }, _react.default.createElement(MeasuredResponsiveDailyRankChart, {
-        inputData: _mockData.dailyRankingData
+      }, _react.default.createElement(MeasuredResponsiveDailyLineChart, {
+        inputData: _mockData.dailyMockData
       })), _react.default.createElement("div", {
         style: {
           width: "100%",
           height: "240px"
         },
         className: "jsx-3900353234"
-      }, _react.default.createElement(MeasuredDailyRankChart, {
-        inputData: _mockData.dailyRankingData
+      }, _react.default.createElement(MeasuredDailyLineChart, {
+        inputData: _mockData.dailyMockData
       })), _react.default.createElement(_ExambleDonutChart.default, null), _react.default.createElement(_style.default, {
         styleId: "3900353234",
         css: "html,body{margin:0;padding:0;}body{font-family:system-ui;}main{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;max-width:960px;margin:0 auto;}"
@@ -40340,7 +40678,7 @@ function (_React$Component) {
 
 var _default = App;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./ExampleBarChart":"components/ExampleBarChart.tsx","./ExampleLineChart":"components/ExampleLineChart.tsx","./ExambleDonutChart":"components/ExambleDonutChart.tsx","./DailyRankChart":"components/DailyRankChart.tsx","./ResponsiveDailyRankChart":"components/ResponsiveDailyRankChart.tsx","./withMeasureAndRender":"components/withMeasureAndRender.tsx","../mock-data":"mock-data.ts"}],"index.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./ExampleBarChart":"components/ExampleBarChart.tsx","./ExampleLineChart":"components/ExampleLineChart.tsx","./ExambleDonutChart":"components/ExambleDonutChart.tsx","./linecharts/DailyLineChart":"components/linecharts/DailyLineChart.tsx","./linecharts/ResponsiveDailyLineChart":"components/linecharts/ResponsiveDailyLineChart.tsx","./withMeasureAndRender":"components/withMeasureAndRender.tsx","../mock-data":"mock-data.ts"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -40379,7 +40717,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57125" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
