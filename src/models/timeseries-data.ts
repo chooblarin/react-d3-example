@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export type DailyRank = {
+export type TimeSeriesItem = {
   day: dayjs.Dayjs;
-  rank: number;
+  value: number;
 };

@@ -1,20 +1,20 @@
 import React from "react";
 
 import { InjectedProps } from "./withMeasureAndRender";
-import DailyRankChart from "./DailyRankChart";
-import { DailyRank } from "../models/ranking-data";
+import DailyLineChart from "./DailyLineChart";
+import { TimeSeriesItem } from "../models/timeseries-data";
 
-type ResponsiveDailyRankChartProps = {
-  inputData: DailyRank[];
+type ResponsiveDailyLineChartProps = {
+  inputData: TimeSeriesItem[];
 };
 
-function ResponsiveDailyRankChart(
-  props: ResponsiveDailyRankChartProps & InjectedProps
+function ResponsiveDailyLineChart(
+  props: ResponsiveDailyLineChartProps & InjectedProps
 ) {
   const { width, inputData } = props;
   const sorted = inputData.sort((a, b) => (b.day.isBefore(a.day) ? -1 : 1));
 
-  let adjustedData: DailyRank[] = [];
+  let adjustedData: TimeSeriesItem[] = [];
   if (width <= 550) {
     adjustedData = sorted.slice(0, 4 * 7); // 4 weeks
   } else if (width <= 750) {
@@ -25,7 +25,7 @@ function ResponsiveDailyRankChart(
 
   const adjustedProps = { ...props, inputData: adjustedData };
 
-  return <DailyRankChart {...adjustedProps} />;
+  return <DailyLineChart {...adjustedProps} />;
 }
 
-export default ResponsiveDailyRankChart;
+export default ResponsiveDailyLineChart;

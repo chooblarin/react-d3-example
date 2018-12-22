@@ -8,7 +8,7 @@ import { axisBottom, axisLeft } from "d3-axis";
 import { Delaunay } from "d3-delaunay";
 
 import { InjectedProps } from "./withMeasureAndRender";
-import { DailyRank } from "../models/ranking-data";
+import { TimeSeriesItem } from "../models/timeseries-data";
 
 const drawBackgroundRect = (x1: number, x2: number, height: number): string => {
   return `M${x1},0 L${x2},0 L${x2},${height} ${x1},${height}Z`;
@@ -55,19 +55,19 @@ const generateDayTickValues = (
   return results;
 };
 
-type DailyRankChartProps = {
-  inputData: DailyRank[];
+type DailyLineChartProps = {
+  inputData: TimeSeriesItem[];
 };
 
-type DailyRankChartState = {
+type DailyLineChartState = {
   hoveredIndex: number | null;
 };
 
-class DailyRankChart extends React.Component<
-  DailyRankChartProps & InjectedProps,
-  DailyRankChartState
+class DailyLineChart extends React.Component<
+  DailyLineChartProps & InjectedProps,
+  DailyLineChartState
 > {
-  constructor(props: DailyRankChartProps & InjectedProps) {
+  constructor(props: DailyLineChartProps & InjectedProps) {
     super(props);
     this.state = {
       hoveredIndex: null
@@ -81,8 +81,8 @@ class DailyRankChart extends React.Component<
       return <svg width={width} height={height} />;
     }
 
-    const getX = (item: DailyRank) => item.day;
-    const getY = (item: DailyRank) => item.rank;
+    const getX = (item: TimeSeriesItem) => item.day;
+    const getY = (item: TimeSeriesItem) => item.value;
 
     const margin = { top: 20, right: 20, bottom: 40, left: 45 };
     const w = width - margin.left - margin.right;
@@ -103,7 +103,7 @@ class DailyRankChart extends React.Component<
     const lowerMargin = 10;
     const y = scaleLinear()
       .range([h, 0])
-      .domain([maxY + lowerMargin, Math.max(0, minY - upperMargin)])
+      .domain([Math.max(0, minY - upperMargin), maxY + lowerMargin])
       .nice();
 
     const valueLine = line()
@@ -134,8 +134,8 @@ class DailyRankChart extends React.Component<
     // create month-background rect
     const bgRects = monthBackgroundRects(start, end, x, h);
 
-    const points = data.map(({ day, rank }) => {
-      return [x(day), y(rank)];
+    const points = data.map(({ day, value }) => {
+      return [x(day), y(value)];
     });
     const delaunay = Delaunay.from(points);
     const voronoi = delaunay.voronoi([0, 0, w, h]);
@@ -144,11 +144,11 @@ class DailyRankChart extends React.Component<
     let tooltip;
     const { hoveredIndex } = this.state;
     if (hoveredIndex !== null) {
-      const { day, rank } = data[hoveredIndex];
+      const { day, value } = data[hoveredIndex];
       tooltip = (
-        <g className="tooltop" transform={`translate(${x(day)}, ${y(rank)})`}>
+        <g className="tooltop" transform={`translate(${x(day)}, ${y(value)})`}>
           <circle r={3.5} />
-          <text y={-10} fontSize={12}>{`rank: ${rank}`}</text>
+          <text y={-10} fontSize={12}>{`value: ${value}`}</text>
         </g>
       );
     } else {
@@ -253,4 +253,4 @@ class DailyRankChart extends React.Component<
   }
 }
 
-export default DailyRankChart;
+export default DailyLineChart;

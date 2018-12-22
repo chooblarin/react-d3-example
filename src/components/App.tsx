@@ -3,14 +3,14 @@ import ExampleBarChart from "./ExampleBarChart";
 import ExampleLineChart from "./ExampleLineChart";
 import ExampleDounutChart from "./ExambleDonutChart";
 
-import DailyRankChart from "./DailyRankChart";
-import ResponsiveDailyRankChart from "./ResponsiveDailyRankChart";
+import DailyLineChart from "./DailyLineChart";
+import ResponsiveDailyLineChart from "./ResponsiveDailyLineChart";
 import withMeasureAndRender from "./withMeasureAndRender";
-import { dailyRankingData } from "../mock-data";
+import { dailyMockData } from "../mock-data";
 
-const MeasuredDailyRankChart = withMeasureAndRender(DailyRankChart);
-const MeasuredResponsiveDailyRankChart = withMeasureAndRender(
-  ResponsiveDailyRankChart
+const MeasuredDailyLineChart = withMeasureAndRender(DailyLineChart);
+const MeasuredResponsiveDailyLineChart = withMeasureAndRender(
+  ResponsiveDailyLineChart
 );
 
 class App extends React.Component<{}, {}> {
@@ -21,10 +21,10 @@ class App extends React.Component<{}, {}> {
         <ExampleBarChart />
         <ExampleLineChart />
         <div style={{ width: "100%", height: "240px" }}>
-          <MeasuredResponsiveDailyRankChart inputData={dailyRankingData} />
+          <MeasuredResponsiveDailyLineChart inputData={dailyMockData} />
         </div>
         <div style={{ width: "100%", height: "240px" }}>
-          <MeasuredDailyRankChart inputData={dailyRankingData} />
+          <MeasuredDailyLineChart inputData={dailyMockData} />
         </div>
         <ExampleDounutChart />
         <style jsx global>{`
