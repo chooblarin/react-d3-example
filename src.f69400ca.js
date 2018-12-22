@@ -35438,6 +35438,7 @@ var MeasuredWeekActivityBarChart = (0, _withMeasureAndRender.default)(_WeekActiv
 
 var _default = function _default() {
   return _react.default.createElement("section", {
+    id: "bar-chart-examples",
     className: "jsx-181832623"
   }, _react.default.createElement("h2", {
     className: "jsx-181832623"
@@ -38898,166 +38899,7 @@ function MultiTimeSeriesChart(_ref) {
 
 var _default = MultiTimeSeriesChart;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"components/ExampleLineChart.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _style = _interopRequireDefault(require("styled-jsx/style"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _dayjs = _interopRequireDefault(require("dayjs"));
-
-var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
-
-var _TimeSeriesChart = _interopRequireDefault(require("./linecharts/TimeSeriesChart"));
-
-var _MultiTimeSeriesChart = _interopRequireDefault(require("./linecharts/MultiTimeSeriesChart"));
-
-var _mockData = require("../mock-data");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MeasuredTimeSeriesChart = (0, _withMeasureAndRender.default)(_TimeSeriesChart.default);
-var MeasuredMultiTimeSeriesChart = (0, _withMeasureAndRender.default)(_MultiTimeSeriesChart.default);
-
-var _default = function _default() {
-  return _react.default.createElement("section", {
-    className: "jsx-3576380508"
-  }, _react.default.createElement("h2", {
-    className: "jsx-3576380508"
-  }, "Line Chart"), _react.default.createElement("div", {
-    style: {
-      width: "100%",
-      height: "240px"
-    },
-    className: "jsx-3576380508"
-  }, _react.default.createElement(MeasuredTimeSeriesChart, {
-    inputData: _mockData.timeSeriesInputData,
-    getX: function getX(item) {
-      return (0, _dayjs.default)(item.time).toDate();
-    },
-    getY: function getY(item) {
-      return item.km;
-    },
-    formatX: function formatX(date) {
-      return (0, _dayjs.default)(date).format("MMM DD");
-    }
-  })), _react.default.createElement("div", {
-    style: {
-      width: "100%",
-      height: "240px"
-    },
-    className: "jsx-3576380508"
-  }, _react.default.createElement(MeasuredMultiTimeSeriesChart, {
-    mutiInputData: _mockData.multiTimeSeriesInputData
-  })), _react.default.createElement(_style.default, {
-    styleId: "3576380508",
-    css: "section.jsx-3576380508{width:100%;}h2.jsx-3576380508{margin:1rem 20px;}.chart-container.jsx-3576380508{width:100%;height:160px;}"
-  }));
-};
-
-exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./linecharts/TimeSeriesChart":"components/linecharts/TimeSeriesChart.tsx","./linecharts/MultiTimeSeriesChart":"components/linecharts/MultiTimeSeriesChart.tsx","../mock-data":"mock-data.ts"}],"components/DonutChart.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _d3Scale = require("d3-scale");
-
-var _d3Shape = require("d3-shape");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var fillColor = (0, _d3Scale.scaleOrdinal)().range(["purple", "steelblue"]);
-
-function DonutChart(_ref) {
-  var inputData = _ref.inputData,
-      width = _ref.width,
-      height = _ref.height,
-      getY = _ref.getY;
-  var radius = Math.min(width, height) / 2;
-  var pie = (0, _d3Shape.pie)().sort(null).value(function (d) {
-    return d.ratio;
-  });
-  var arc = (0, _d3Shape.arc)().outerRadius(radius).innerRadius(radius - 80);
-  return _react.default.createElement("svg", {
-    width: width,
-    height: height
-  }, _react.default.createElement("g", {
-    transform: "translate(".concat(width / 2, ", ").concat(height / 2, ")")
-  }, pie(inputData).map(function (item, i) {
-    return _react.default.createElement("g", {
-      key: "".concat(i)
-    }, _react.default.createElement("path", {
-      d: arc(item) || "",
-      fill: fillColor("".concat(i)).toString() || ""
-    }), _react.default.createElement("text", {
-      transform: "translate(".concat(arc.centroid(item), ")"),
-      style: {
-        fill: "white",
-        textAnchor: "middle"
-      }
-    }, "".concat(getY(item.data))));
-  })));
-}
-
-var _default = DonutChart;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js"}],"components/ExambleDonutChart.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _style = _interopRequireDefault(require("styled-jsx/style"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
-
-var _DonutChart = _interopRequireDefault(require("./DonutChart"));
-
-var _mockData = require("../mock-data");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MeasuredDonutChart = (0, _withMeasureAndRender.default)(_DonutChart.default);
-
-var _default = function _default() {
-  return _react.default.createElement("section", {
-    className: "jsx-1564664523"
-  }, _react.default.createElement("h2", {
-    className: "jsx-1564664523"
-  }, "Dounut Chart"), _react.default.createElement("div", {
-    className: "jsx-1564664523" + " " + "chart-container"
-  }, _react.default.createElement(MeasuredDonutChart, {
-    inputData: _mockData.donutInputData,
-    getX: function getX(item) {
-      return item.gender;
-    },
-    getY: function getY(item) {
-      return item.ratio;
-    }
-  })), _react.default.createElement(_style.default, {
-    styleId: "1564664523",
-    css: "section.jsx-1564664523{width:100%;}h2.jsx-1564664523{margin:1rem 20px;}.chart-container.jsx-1564664523{width:300px;height:300px;margin:0 auto;}"
-  }));
-};
-
-exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./DonutChart":"components/DonutChart.tsx","../mock-data":"mock-data.ts"}],"../node_modules/delaunator/index.js":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-array":"../node_modules/d3-array/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js"}],"../node_modules/delaunator/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40583,7 +40425,182 @@ function ResponsiveDailyLineChart(props) {
 
 var _default = ResponsiveDailyLineChart;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./DailyLineChart":"components/linecharts/DailyLineChart.tsx"}],"components/App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./DailyLineChart":"components/linecharts/DailyLineChart.tsx"}],"components/ExampleLineChart.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _style = _interopRequireDefault(require("styled-jsx/style"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _dayjs = _interopRequireDefault(require("dayjs"));
+
+var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
+
+var _TimeSeriesChart = _interopRequireDefault(require("./linecharts/TimeSeriesChart"));
+
+var _MultiTimeSeriesChart = _interopRequireDefault(require("./linecharts/MultiTimeSeriesChart"));
+
+var _DailyLineChart = _interopRequireDefault(require("./linecharts/DailyLineChart"));
+
+var _ResponsiveDailyLineChart = _interopRequireDefault(require("./linecharts/ResponsiveDailyLineChart"));
+
+var _mockData = require("../mock-data");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MeasuredDailyLineChart = (0, _withMeasureAndRender.default)(_DailyLineChart.default);
+var MeasuredResponsiveDailyLineChart = (0, _withMeasureAndRender.default)(_ResponsiveDailyLineChart.default);
+var MeasuredTimeSeriesChart = (0, _withMeasureAndRender.default)(_TimeSeriesChart.default);
+var MeasuredMultiTimeSeriesChart = (0, _withMeasureAndRender.default)(_MultiTimeSeriesChart.default);
+
+var _default = function _default() {
+  return _react.default.createElement("section", {
+    id: "line-chart-examples",
+    className: "jsx-3026587827"
+  }, _react.default.createElement("h2", {
+    className: "jsx-3026587827"
+  }, "Line Chart"), _react.default.createElement("h3", {
+    className: "jsx-3026587827"
+  }, "Time Series (Normal)"), _react.default.createElement("div", {
+    className: "jsx-3026587827" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredTimeSeriesChart, {
+    inputData: _mockData.timeSeriesInputData,
+    getX: function getX(item) {
+      return (0, _dayjs.default)(item.time).toDate();
+    },
+    getY: function getY(item) {
+      return item.km;
+    },
+    formatX: function formatX(date) {
+      return (0, _dayjs.default)(date).format("MMM DD");
+    }
+  })), _react.default.createElement("h3", {
+    className: "jsx-3026587827"
+  }, "Time Series (Multiple)"), _react.default.createElement("div", {
+    className: "jsx-3026587827" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredMultiTimeSeriesChart, {
+    mutiInputData: _mockData.multiTimeSeriesInputData
+  })), _react.default.createElement("h3", {
+    className: "jsx-3026587827"
+  }, "Time Series w/background"), _react.default.createElement("div", {
+    className: "jsx-3026587827" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredDailyLineChart, {
+    inputData: _mockData.dailyMockData
+  })), _react.default.createElement("h3", {
+    className: "jsx-3026587827"
+  }, "Time Series w/background (Adjusted)"), _react.default.createElement("div", {
+    className: "jsx-3026587827" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredResponsiveDailyLineChart, {
+    inputData: _mockData.dailyMockData
+  })), _react.default.createElement(_style.default, {
+    styleId: "3026587827",
+    css: "section.jsx-3026587827{width:90%;}.chart-container.jsx-3026587827{width:100%;height:240px;}"
+  }));
+};
+
+exports.default = _default;
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","dayjs":"../node_modules/dayjs/dayjs.min.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./linecharts/TimeSeriesChart":"components/linecharts/TimeSeriesChart.tsx","./linecharts/MultiTimeSeriesChart":"components/linecharts/MultiTimeSeriesChart.tsx","./linecharts/DailyLineChart":"components/linecharts/DailyLineChart.tsx","./linecharts/ResponsiveDailyLineChart":"components/linecharts/ResponsiveDailyLineChart.tsx","../mock-data":"mock-data.ts"}],"components/DonutChart.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _d3Scale = require("d3-scale");
+
+var _d3Shape = require("d3-shape");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fillColor = (0, _d3Scale.scaleOrdinal)().range(["purple", "steelblue"]);
+
+function DonutChart(_ref) {
+  var inputData = _ref.inputData,
+      width = _ref.width,
+      height = _ref.height,
+      getY = _ref.getY;
+  var radius = Math.min(width, height) / 2;
+  var pie = (0, _d3Shape.pie)().sort(null).value(function (d) {
+    return d.ratio;
+  });
+  var arc = (0, _d3Shape.arc)().outerRadius(radius).innerRadius(radius - 80);
+  return _react.default.createElement("svg", {
+    width: width,
+    height: height
+  }, _react.default.createElement("g", {
+    transform: "translate(".concat(width / 2, ", ").concat(height / 2, ")")
+  }, pie(inputData).map(function (item, i) {
+    return _react.default.createElement("g", {
+      key: "".concat(i)
+    }, _react.default.createElement("path", {
+      d: arc(item) || "",
+      fill: fillColor("".concat(i)).toString() || ""
+    }), _react.default.createElement("text", {
+      transform: "translate(".concat(arc.centroid(item), ")"),
+      style: {
+        fill: "white",
+        textAnchor: "middle"
+      }
+    }, "".concat(getY(item.data))));
+  })));
+}
+
+var _default = DonutChart;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js"}],"components/ExambleDonutChart.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _style = _interopRequireDefault(require("styled-jsx/style"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
+
+var _DonutChart = _interopRequireDefault(require("./DonutChart"));
+
+var _mockData = require("../mock-data");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MeasuredDonutChart = (0, _withMeasureAndRender.default)(_DonutChart.default);
+
+var _default = function _default() {
+  return _react.default.createElement("section", {
+    id: "donut-chart-examples",
+    className: "jsx-4006778094"
+  }, _react.default.createElement("h2", {
+    className: "jsx-4006778094"
+  }, "Dounut Chart"), _react.default.createElement("div", {
+    className: "jsx-4006778094" + " " + "chart-container"
+  }, _react.default.createElement(MeasuredDonutChart, {
+    inputData: _mockData.donutInputData,
+    getX: function getX(item) {
+      return item.gender;
+    },
+    getY: function getY(item) {
+      return item.ratio;
+    }
+  })), _react.default.createElement(_style.default, {
+    styleId: "4006778094",
+    css: "section.jsx-4006778094{width:90%;}.chart-container.jsx-4006778094{width:300px;height:300px;margin:0 auto;}"
+  }));
+};
+
+exports.default = _default;
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./withMeasureAndRender":"components/withMeasureAndRender.tsx","./DonutChart":"components/DonutChart.tsx","../mock-data":"mock-data.ts"}],"components/App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40600,14 +40617,6 @@ var _ExampleBarChart = _interopRequireDefault(require("./ExampleBarChart"));
 var _ExampleLineChart = _interopRequireDefault(require("./ExampleLineChart"));
 
 var _ExambleDonutChart = _interopRequireDefault(require("./ExambleDonutChart"));
-
-var _DailyLineChart = _interopRequireDefault(require("./linecharts/DailyLineChart"));
-
-var _ResponsiveDailyLineChart = _interopRequireDefault(require("./linecharts/ResponsiveDailyLineChart"));
-
-var _withMeasureAndRender = _interopRequireDefault(require("./withMeasureAndRender"));
-
-var _mockData = require("../mock-data");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40629,9 +40638,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var MeasuredDailyLineChart = (0, _withMeasureAndRender.default)(_DailyLineChart.default);
-var MeasuredResponsiveDailyLineChart = (0, _withMeasureAndRender.default)(_ResponsiveDailyLineChart.default);
-
 var App =
 /*#__PURE__*/
 function (_React$Component) {
@@ -40647,28 +40653,12 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return _react.default.createElement("main", {
-        className: "jsx-3900353234"
+        className: "jsx-2046534031"
       }, _react.default.createElement("h1", {
-        className: "jsx-3900353234"
-      }, "React + D3 Examples"), _react.default.createElement(_ExampleBarChart.default, null), _react.default.createElement(_ExampleLineChart.default, null), _react.default.createElement("div", {
-        style: {
-          width: "100%",
-          height: "240px"
-        },
-        className: "jsx-3900353234"
-      }, _react.default.createElement(MeasuredResponsiveDailyLineChart, {
-        inputData: _mockData.dailyMockData
-      })), _react.default.createElement("div", {
-        style: {
-          width: "100%",
-          height: "240px"
-        },
-        className: "jsx-3900353234"
-      }, _react.default.createElement(MeasuredDailyLineChart, {
-        inputData: _mockData.dailyMockData
-      })), _react.default.createElement(_ExambleDonutChart.default, null), _react.default.createElement(_style.default, {
-        styleId: "3900353234",
-        css: "html,body{margin:0;padding:0;}body{font-family:system-ui;}main{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;max-width:960px;margin:0 auto;}"
+        className: "jsx-2046534031"
+      }, "React + D3 Examples"), _react.default.createElement(_ExampleBarChart.default, null), _react.default.createElement(_ExampleLineChart.default, null), _react.default.createElement(_ExambleDonutChart.default, null), _react.default.createElement(_style.default, {
+        styleId: "2046534031",
+        css: "@import url(\"https://fonts.googleapis.com/css?family=Noto+Serif:400,700\");html,body{margin:0;padding:0;color:#424211;background:#f8f8f4;}*{font-family:\"Noto Serif\",serif,system-ui;}main{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;max-width:960px;margin:0 auto;}h1,h2,h3,h4{margin:3rem 0 1rem;font-weight:300;}h1{font-size:2.6rem;line-height:1.2;-webkit-letter-spacing:-0.1rem;-moz-letter-spacing:-0.1rem;-ms-letter-spacing:-0.1rem;letter-spacing:-0.1rem;padding:0 1rem;}h2{font-size:2.4rem;line-height:1.25;-webkit-letter-spacing:-0.1rem;-moz-letter-spacing:-0.1rem;-ms-letter-spacing:-0.1rem;letter-spacing:-0.1rem;}h3{font-size:1.8rem;line-height:1.3;}"
       }));
     }
   }]);
@@ -40678,7 +40668,7 @@ function (_React$Component) {
 
 var _default = App;
 exports.default = _default;
-},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./ExampleBarChart":"components/ExampleBarChart.tsx","./ExampleLineChart":"components/ExampleLineChart.tsx","./ExambleDonutChart":"components/ExambleDonutChart.tsx","./linecharts/DailyLineChart":"components/linecharts/DailyLineChart.tsx","./linecharts/ResponsiveDailyLineChart":"components/linecharts/ResponsiveDailyLineChart.tsx","./withMeasureAndRender":"components/withMeasureAndRender.tsx","../mock-data":"mock-data.ts"}],"index.tsx":[function(require,module,exports) {
+},{"styled-jsx/style":"../node_modules/styled-jsx/style.js","react":"../node_modules/react/index.js","./ExampleBarChart":"components/ExampleBarChart.tsx","./ExampleLineChart":"components/ExampleLineChart.tsx","./ExambleDonutChart":"components/ExambleDonutChart.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -40717,7 +40707,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57125" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58003" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
