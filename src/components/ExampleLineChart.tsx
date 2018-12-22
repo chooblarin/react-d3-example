@@ -19,7 +19,7 @@ const MeasuredTimeSeriesChart = withMeasureAndRender(TimeSeriesChart);
 const MeasuredMultiTimeSeriesChart = withMeasureAndRender(MultiTimeSeriesChart);
 
 export default () => (
-  <section>
+  <section id="line-chart-examples">
     <h2>Line Chart</h2>
     <h3>Time Series (Normal)</h3>
     <div className="chart-container">

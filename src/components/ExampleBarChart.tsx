@@ -15,7 +15,7 @@ const MeasuredGradientBarChart2 = withMeasureAndRender(GradientBarChart2);
 const MeasuredWeekActivityBarChart = withMeasureAndRender(WeekActivityBarChart);
 
 export default () => (
-  <section>
+  <section id="bar-chart-examples">
     <h2>Bar Chart</h2>
     <h3>Normal</h3>
     <div className="chart-container">

@@ -7,7 +7,7 @@ import { donutInputData } from "../mock-data";
 const MeasuredDonutChart = withMeasureAndRender(DonutChart);
 
 export default () => (
-  <section>
+  <section id="donut-chart-examples">
     <h2>Dounut Chart</h2>
     <div className="chart-container">
       <MeasuredDonutChart
