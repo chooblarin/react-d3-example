@@ -31,7 +31,7 @@ function RoundedBarChart({
 
   const x = scaleBand()
     .rangeRound([0, w])
-    .padding(0.1);
+    .padding(0.4);
 
   const y = scaleLinear().rangeRound([h, 0]);
 
