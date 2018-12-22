@@ -6,21 +6,23 @@ import { axisBottom, axisLeft } from "d3-axis";
 
 import { InjectedProps } from "./withMeasureAndRender";
 
-type BarChartProps = {
+type RoundedBarChartProps = {
   inputData: any[];
   getX: (item: any) => string;
   getY: (item: any) => number;
+  radius: number;
   color?: string;
 };
 
-function BarChart({
+function RoundedBarChart({
   inputData,
   width,
   height,
   getX,
   getY,
-  color
-}: BarChartProps & InjectedProps) {
+  color,
+  radius
+}: RoundedBarChartProps & InjectedProps) {
   const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
   // Make sure w and h would be larger than or equal to 0
@@ -38,18 +40,25 @@ function BarChart({
 
   const axisX = axisBottom(x);
   const axisY = axisLeft(y).ticks(4);
+
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`}>
-        {inputData.map((item, i) => (
-          <rect
-            key={`${i}`}
-            x={x(getX(item))}
-            y={y(getY(item))}
-            width={x.bandwidth()}
-            height={h - y(getY(item))}
-          />
-        ))}
+        {inputData.map((item, i) => {
+          const bw = x.bandwidth();
+          const bh = h - y(getY(item));
+          return (
+            <path
+              d={`M${x(getX(item))},${h}
+              v${-bh + radius}
+              a${radius},${radius} 0 0 1 ${radius},${-radius}
+              h${bw - 2 * radius}
+              a${radius},${radius} 0 0 1 ${radius},${radius}
+              v${bh - radius}Z`}
+              key={`${i}`}
+            />
+          );
+        })}
         <g
           className="axis axis-x"
           transform={`translate(0, ${h})`}
@@ -61,7 +70,7 @@ function BarChart({
         <g className="axis" ref={node => select(node).call(axisY as any)} />
       </g>
       <style jsx>{`
-        rect {
+        path {
           fill: ${color || "#d8196c"};
         }
         .axis {
@@ -76,4 +85,4 @@ function BarChart({
   );
 }
 
-export default BarChart;
+export default RoundedBarChart;
