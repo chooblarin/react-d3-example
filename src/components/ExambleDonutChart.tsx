@@ -18,10 +18,7 @@ export default () => (
     </div>
     <style jsx>{`
       section {
-        width: 100%;
-      }
-      h2 {
-        margin: 1rem 20px;
+        width: 90%;
       }
       .chart-container {
         width: 300px;
