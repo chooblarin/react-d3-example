@@ -1,9 +1,9 @@
 import React from "react";
 
 import withMeasureAndRender from "./withMeasureAndRender";
-import BarChart from "./BarChart";
-import RoundedBarChart from "./RoundedBarChart";
-import WeekActivityBarChart from "./WeekActivityBarChart";
+import BarChart from "./barcharts/BarChart";
+import RoundedBarChart from "./barcharts/RoundedBarChart";
+import WeekActivityBarChart from "./barcharts/WeekActivityBarChart";
 import { barInputData, activitiesForWeek } from "../mock-data";
 
 const MeasuredBarChart = withMeasureAndRender(BarChart);

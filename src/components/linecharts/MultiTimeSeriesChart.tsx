@@ -5,7 +5,7 @@ import { line, curveLinear } from "d3-shape";
 import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 
-import { InjectedProps } from "./withMeasureAndRender";
+import { InjectedProps } from "../withMeasureAndRender";
 
 type MultiTimeSeriesChartProps = {
   mutiInputData: any[][];

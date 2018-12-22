@@ -1,8 +1,8 @@
 import React from "react";
 
-import { InjectedProps } from "./withMeasureAndRender";
+import { InjectedProps } from "../withMeasureAndRender";
 import DailyLineChart from "./DailyLineChart";
-import { TimeSeriesItem } from "../models/timeseries-data";
+import { TimeSeriesItem } from "../../models/timeseries-data";
 
 type ResponsiveDailyLineChartProps = {
   inputData: TimeSeriesItem[];

@@ -4,7 +4,7 @@ import { select } from "d3-selection";
 import { max } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 
-import { InjectedProps } from "./withMeasureAndRender";
+import { InjectedProps } from "../withMeasureAndRender";
 
 type RoundedBarChartProps = {
   inputData: any[];

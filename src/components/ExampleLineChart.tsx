@@ -2,8 +2,8 @@ import React from "react";
 import dayjs from "dayjs";
 
 import withMeasureAndRender from "./withMeasureAndRender";
-import TimeSeriesChart from "./TimeSeriesChart";
-import MultiTimeSeriesChart from "./MultiTimeSeriesChart";
+import TimeSeriesChart from "./linecharts/TimeSeriesChart";
+import MultiTimeSeriesChart from "./linecharts/MultiTimeSeriesChart";
 
 import { timeSeriesInputData, multiTimeSeriesInputData } from "../mock-data";
 

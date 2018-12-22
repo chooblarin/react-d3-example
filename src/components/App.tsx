@@ -3,8 +3,8 @@ import ExampleBarChart from "./ExampleBarChart";
 import ExampleLineChart from "./ExampleLineChart";
 import ExampleDounutChart from "./ExambleDonutChart";
 
-import DailyLineChart from "./DailyLineChart";
-import ResponsiveDailyLineChart from "./ResponsiveDailyLineChart";
+import DailyLineChart from "./linecharts/DailyLineChart";
+import ResponsiveDailyLineChart from "./linecharts/ResponsiveDailyLineChart";
 import withMeasureAndRender from "./withMeasureAndRender";
 import { dailyMockData } from "../mock-data";
 

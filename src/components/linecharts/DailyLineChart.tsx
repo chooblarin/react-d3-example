@@ -7,8 +7,8 @@ import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 import { Delaunay } from "d3-delaunay";
 
-import { InjectedProps } from "./withMeasureAndRender";
-import { TimeSeriesItem } from "../models/timeseries-data";
+import { InjectedProps } from "../withMeasureAndRender";
+import { TimeSeriesItem } from "../../models/timeseries-data";
 
 const drawBackgroundRect = (x1: number, x2: number, height: number): string => {
   return `M${x1},0 L${x2},0 L${x2},${height} ${x1},${height}Z`;

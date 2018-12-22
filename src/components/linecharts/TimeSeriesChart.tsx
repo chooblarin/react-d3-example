@@ -5,7 +5,7 @@ import { extent } from "d3-array";
 import { line } from "d3-shape";
 import { axisBottom, axisLeft } from "d3-axis";
 
-import { InjectedProps } from "./withMeasureAndRender";
+import { InjectedProps } from "../withMeasureAndRender";
 
 type TimeSeriesChartProps = {
   inputData: any[];
